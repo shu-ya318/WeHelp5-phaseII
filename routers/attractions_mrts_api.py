@@ -8,7 +8,7 @@ import os
 
 
 # 先載入模組、替代app = FastAPI(  )
-router = APIRouter(tags=['Attraction_and_mrt'])
+router = APIRouter(tags=["Attraction_and_mrt"])
 
 
 #  定義 API 的請求、回應的資料結構，便於前端處理
@@ -114,10 +114,10 @@ async def query_attractions(page: int = Query(0, ge=0), keyword: Optional[str] =
 
     # 須在創建 Attraction 模型前，處理 images 字段 (因接收型別為字串，整理轉換成列表)
     for result in results:
-        if result['images']:
-            result['images'] = result['images'].split(',')
+        if result["images"]:
+            result["images"] = result["images"].split(",")
         else:
-            result['images'] = []
+            result["images"] = []
 
     attractions = [Attraction(**result) for result in results]
 
@@ -142,7 +142,7 @@ async def get_attraction(attractionId: int):
                 content={"error": True, "message": "景點編號不正確"}  # 如:參數id輸入正整數但不存在 或0 或 負數
             )
 
-        result['images'] = result['images'].split(',') if result['images'] else []
+        result["images"] = result["images"].split(",") if result["images"] else []
 
         attraction_data = Attraction(**result)
         return JSONResponse(
@@ -171,7 +171,7 @@ async def get_mrts():
         db_cursor = connection.cursor(dictionary=True)
         db_cursor.execute("SELECT DISTINCT mrt FROM attractions WHERE mrt IS NOT NULL AND mrt != ''")        
         results = db_cursor.fetchall()
-        mrt_stations = [result['mrt'] for result in results]
+        mrt_stations = [result["mrt"] for result in results]
         return {"data": mrt_stations}
     except Error as e:
         return JSONResponse(
