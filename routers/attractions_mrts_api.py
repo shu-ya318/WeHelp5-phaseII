@@ -161,6 +161,7 @@ async def get_attraction(attractionId: int):
             connection.close()
 
 
+# 需分組捷運站，再統計每站景點數，最後由多到少排序
 @router.get("/api/mrts", response_model=MRT, status_code=status.HTTP_200_OK)
 async def get_mrts():
     db_cursor = None
@@ -169,7 +170,13 @@ async def get_mrts():
         pool = create_pool()
         connection = get_db_connection(pool)
         db_cursor = connection.cursor(dictionary=True)
-        db_cursor.execute("SELECT DISTINCT mrt FROM attractions WHERE mrt IS NOT NULL AND mrt != ''")        
+        db_cursor.execute("""
+            SELECT mrt, COUNT(*) as count
+            FROM attractions
+            WHERE mrt IS NOT NULL AND mrt != ''
+            GROUP BY mrt
+            ORDER BY count DESC
+        """)
         results = db_cursor.fetchall()
         mrt_stations = [result["mrt"] for result in results]
         return {"data": mrt_stations}
