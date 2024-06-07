@@ -1,9 +1,14 @@
 from fastapi import *
+from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from routers import attractions_mrts_router  # from 資料夾名 import router物件名
 
 
 app = FastAPI()
+
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
 
 # Static Pages (Never Modify Code in this Block)
 @app.get("/", include_in_schema=False)
