@@ -1,22 +1,21 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener('DOMContentLoaded', function() {
  /*表單*/  
-document.getElementById('signinButton').addEventListener('click', function(event) {
+document.getElementById("signinButton").addEventListener("click", function(event) {
   document.querySelector('.l-backdrop').style.display = 'flex'; 
   document.querySelector('.l-modal-signin').style.display = 'flex';
   document.querySelector('.l-modal-signup').style.display = 'none';
 });
-document.getElementById('signupButton').addEventListener('click', function(event) {
+document.getElementById("signupButton").addEventListener("click", function(event) {
   document.querySelector('.l-backdrop').style.display = 'flex'; 
   document.querySelector('.l-modal-signup').style.display = 'flex';
   document.querySelector('.l-modal-signin').style.display = 'none';
 });
   // 選class設相同的全部按鈕，點擊任一者
-document.querySelectorAll('.m-form-close').forEach(button => {
-  button.addEventListener('click', function(event) {
-    document.querySelector('.l-backdrop').style.display = 'none'; 
-    document.querySelector('.l-modal-signin').style.display = 'none';
-    document.querySelector('.l-modal-signup').style.display = 'none';
-
+  document.querySelectorAll('.m-form-close').forEach(button => {
+    button.addEventListener('click', function(event) {
+      document.querySelector('.l-backdrop').style.display = 'none'; 
+      document.querySelector('.l-modal-signin').style.display = 'none';
+      document.querySelector('.l-modal-signup').style.display = 'none';
   });
 });
 
@@ -30,13 +29,13 @@ let isLoadingAttractions = false;
 let footerObserver = null;   // 觀察器宣告在全域
 
 
-/*欄位搜尋   (搭配,內部呼叫函式處理景點)*/
-document.querySelector('.m-search-button').addEventListener('click', async () => {
-  //已全域宣告，不再寫 nextPage =  0;  attractions = [];  
+/*欄位搜尋   (搭配,內部呼叫函式處理景點)附加 防抖功能*/
+const debouncedFetchAttractionsData = debounce(async () => {
   const keyword = document.querySelector('.m-search-input').value;
-  await fetchAttractionsData(0, keyword);        //固定初始值: 第1頁+輸入欄位值 //非同步確保不重載/刷新頁面
-  /*fetchAttractionsData內部 (1)已考量 清空現有資料(2)renderAttractions  已考量處理<footer> */
-});
+  await fetchAttractionsData(0, keyword); 
+}, 300);
+
+document.querySelector('.m-search-button').addEventListener('click', debouncedFetchAttractionsData);
 
 
 /*捷運站名列表 (含左右移動功能)(搭配 ,內部呼叫函式搜尋-->搜尋已含呼叫處理景點)*/
@@ -44,7 +43,7 @@ document.querySelector('.m-search-button').addEventListener('click', async () =>
 async function fetchMrtData() {  
   try {  
     /*儲存接收資料值 --> 渲染功能*/
-    const response = await fetch("/api/mrts");
+    const response = await fetch('/api/mrts');
     const jsonData = await response.json();
     mrts = jsonData.data ;
     renderMrtNames(mrts);    //參數: 接收API資料
@@ -54,11 +53,11 @@ async function fetchMrtData() {
 }
 //內層函式渲染: 顯示初始值(DOM -->遍歷:每1元素，動態 顯示值+設CSS) + 點擊才移動
 function renderMrtNames(mrts){  //外部參數:每次渲染資料值可能變動
-  const mrtsList = document.querySelector(".m-list-bar-items");
+  const mrtsList = document.querySelector('.m-list-bar-items');
   mrtsList.innerHTML = '';      //避免重複加入已有者
   mrts.forEach( (mrt) => {
-      let listItem = document.createElement("li");
-      listItem.className = "m-list-bar-item";
+      let listItem = document.createElement('li');
+      listItem.className = 'm-list-bar-item';
       listItem.textContent = mrt; 
 
       //搭配 搜尋: 任1動態生成元素 被點擊會成為輸入欄位值+ 呼叫自動執行 按鈕送出搜尋來處理景點
@@ -83,14 +82,17 @@ function renderMrtNames(mrts){  //外部參數:每次渲染資料值可能變動
 
 //再內層函式:點擊移動 *反向，分開寫
 function scrollMrtsList() {
-  const mrtsList = document.querySelector(".m-list-bar-items");
-  const leftArrow = document.querySelector(".m-list-bar-left-arrow");
-  const rightArrow = document.querySelector(".m-list-bar-right-arrow");
+  const mrtsList = document.querySelector('.m-list-bar-items');
+  const leftArrow = document.querySelector('.m-list-bar-left-arrow');
+  const rightArrow = document.querySelector('.m-list-bar-right-arrow');
+  //避免裝置小，位移太多會無法於滾動後點特定站名
+  const scrollDistance = window.matchMedia('(max-width: 360px)').matches ? 20 : 250;
+
   leftArrow.onclick = function() { // 確保不重複註冊&綁定事件監聽器 (O) onclick(X)addEventListener 
-    mrtsList.scrollBy({ left: -350, behavior: 'smooth' });
+    mrtsList.scrollBy({ left: -scrollDistance, behavior: 'smooth' });
   };
   rightArrow.onclick = function() {
-    mrtsList.scrollBy({ left: 350, behavior: 'smooth' });
+    mrtsList.scrollBy({ left: scrollDistance, behavior: 'smooth' });
   };
 }
 
@@ -98,13 +100,14 @@ function scrollMrtsList() {
 
 /*景點*/
 //函式call API
-async function fetchAttractionsData(page = nextPage, keyword = "") {  
+async function fetchAttractionsData(page = nextPage, keyword = ' ') {  
   if (isLoadingAttractions || page === null) return; //確保非加載中 或 下頁有資料值 才請求
   isLoadingAttractions = true;
 
   try {  
     const response = await fetch(`/api/attractions?page=${page}&keyword=${encodeURIComponent(keyword)}`);
     const jsonData = await response.json();
+    if (jsonData.nextPage === nextPage) return; // 檢查 nextPage 是否已更新，以防過快滾動重複取得同頁API
     nextPage = jsonData.nextPage   //更新值為下頁頁碼，值已含數字或null        
     attractions = page === 0 ? jsonData.data : attractions.concat(jsonData.data); //首次才全新、繼續請求的合併舊新資料
     renderAttractions(jsonData.data, page === 0); //參數:接收API資料+初始值首頁
@@ -116,17 +119,20 @@ async function fetchAttractionsData(page = nextPage, keyword = "") {
   }
 }
 
-//內層函式: 處理<footer> (邏輯:狀態未切換,CSS不寫死高度 自動更新位置) (作為 滾動功能的 監聽 觀察器)  
+//內層函式: 處理<footer> (邏輯:狀態未切換,CSS不寫死高度 自動更新位置) (作為 滾動功能的 監聽 觀察器) 
+//         含附加節流功能
+const throttledFetchAttractionsData = throttle(fetchAttractionsData, 200);
+
 function updateFooterDisplay() {
   const footer = document.querySelector('.l-footer'); 
   if (!footerObserver) {    //只需建立1次觀察器 
     footerObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting && !isLoadingAttractions && nextPage !== null) {
-          fetchAttractionsData();
+          throttledFetchAttractionsData();
         }
       });
-    }, { root: null, threshold: 0.5, rootMargin: "50px" });
+    }, { root: null, threshold: 0.5, rootMargin: '50px' });
   }
   footerObserver.observe(footer); 
 }
@@ -190,11 +196,31 @@ function lazyLoadImage(imageElement) {
         lazyLoadingObserver.unobserve(imageElement); 
       }
     });
-  }, { rootMargin: "50px", threshold: 0.5 });
+  }, { rootMargin: '50px', threshold: 0.5 });
 
   lazyLoadingObserver.observe(imageElement);
 }
+//附加 防抖功能(適用輸入元素)
+function debounce(func, delay) {
+  let timeout;
+  return function(...args) {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func(...args), delay);
+  };
+}
+//附加 節流功能(適用滾動事件)
+function throttle(func, delay) {
+  let lastCall = 0;
+  return function(...args) {
+    const now = new Date().getTime();
+    if (now - lastCall < delay) return;
+    lastCall = now;
+    return func(...args);
+  };
+}
+
 //確保首次加載時，呼叫並隨後渲染
 fetchMrtData();
 fetchAttractionsData();   
+
 });
