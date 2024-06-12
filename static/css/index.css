@@ -223,6 +223,9 @@
   }
 
   /* 站名列表 @@自行計算減去2邊箭頭->否則寬度減少，箭頭按鈕無顯示於頁面*/  
+  .m-main-list-bar{
+    width: 100vw; 
+  }
   .m-list-bar-container {
     width: calc(100% - 94px); 
   }
