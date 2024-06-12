@@ -1,502 +1,261 @@
-/* 務必css reset (用meyerweb) */
-  html, body, div, span, applet, object, iframe,
-  h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-  a, abbr, acronym, address, big, cite, code,
-  del, dfn, em, img, ins, kbd, q, s, samp,
-  small, strike, strong, sub, sup, tt, var,
-  b, u, i, center,
-  dl, dt, dd, ol, ul, li,
-  fieldset, form, label, legend,
-  table, caption, tbody, tfoot, thead, tr, th, td,
-  article, aside, canvas, details, embed,
-  figure, figcaption, footer, header, hgroup,
-  menu, nav, output, ruby, section, summary,
-  time, mark, audio, video {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font-size: 100%;
-    font: inherit;
-    vertical-align: baseline;
+@media screen and (max-width: 1920px) {
+  /* hero部分 */
+  .l-hero {
+    width: 100%;
+    height: 320px;
+    display: flex;                    /* 設了才讓下層版面子元素<div class="hero-slogan"> 完整顯示於內部 */     
+    background-image: url('/static/image/welcome_image.png')  ;
+    background-size: cover;          /* 確保背景圖片覆蓋整個元素*/ 
+    background-repeat: no-repeat;
   }
-  article, aside, details, figcaption, figure,
-  footer, header, hgroup, menu, nav, section {
-    display: block;
+  .l-hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;  
+    max-width: 1200px;
+    margin: auto;        /*讓元素內部內容 可水平置中 */  
+    height: 169px;
+    box-sizing: border-box;  /* 設邊距，留意BOX總寬高固定 (讓不同區塊items對齊) */     
+    gap: 10px;               /* 垂直item的間距 */
+    padding: 10px;
+  }   
+  .m-hero-slogan{
+    display: flex;
+    flex-direction: column;
   }
-  body {
-    line-height: 1;
+  .m-slogan-header, .m-slogan-body{
+    width: 1180px;          /*@@沒設 或 設100%、max-width，只吃到父元素置中+寬很短*/  
+    font-weight: 700;
+    color: #F8F8F8;
   }
-  ol, ul {
-    list-style: none;
+  .m-slogan-header {
+    height: 41px;
+    font-size: 28px;
+    line-height: 24px;
+    text-shadow: 0 0 30px #AABBCC;
+  }    
+  .m-slogan-body{
+    height: 22px;
+    font-size: 16px;
+    line-height: 13.3px;
+  }   
+  .m-hero-search {
+    width: 100%;
+    height: 46px;
+  }   
+  .m-search-bar{
+    display: flex;
+    flex-direction:row;
+    width: 460px;
+    height: 100%;
   }
-  blockquote, q {
-    quotes: none;
-  }
-  blockquote:before, blockquote:after,
-  q:before, q:after {
-    content: '';
-    content: none;
-  }
-  table {
-    border-collapse: collapse;
-    border-spacing: 0;
+  .m-search-input {
+    width: 400px;
+    height: 100%;
+    padding: 15px;  
+    border: none;                   
+    border-top-left-radius: 5px;    /*左上+左下才圓角*/  
+    border-bottom-left-radius: 5px;
+    box-sizing: border-box;          /* 未設，內部欄位溢出盒子@@ +盒子總寬減少 */
+    box-shadow: 0 0 20px #AABBCC;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 13.3px;
+    color: #757575;
+  }   
+  .m-search-button {
+    width: 60px;
+    height: 100%;
+    border-top-right-radius: 5px;    /* 右上+右下才圓角*/ 
+    border-bottom-right-radius: 5px;
+    background-color: #448899;     
+    padding: 8px 15px;           
   }  
-  /*Figma Layout 寬、高 、內外邊距
-  (一)父、子元素間w、h僅參考 !寫死易RWD爆版、無法正常執行JS (x)各自寫死(o)有些寫死+有些搭配margin或padding 
-      1.(父)元素     寬:    max-width取代width -->RWD不跑版
-      2.子元素,尤flex item      
-                    寬、高度: 獨佔，  相對父元素width:100% -->RWD不破圖、截斷
-                             共分，  視情況寫死(常設margin、padding，相對不寫死)
-                    margin: 常__px auto             -->不寫死、彈性水平置中對齊+不貼齊離視窗左右底邊
-  (二)子元素top、left僅參考 ，(x)非「position」top、left (o)父元素Box的padding上下+左右___px */ 
-  @media screen and (max-width: 1920px) {
-    html ,button ,input{    /* @@ <button> <input>指明才套用字型 */  
-      font-family: 'Noto Sans TC', sans-serif; 
-    }
-    img{
-      max-width: 100%;
-    }
-    button,li{
-      border: none;       /* 消弭預設黑色邊框 */
-      cursor: pointer;
-    }
-    /* nav部分 */
-    .l-nav {
-      position: fixed;    /*恆固定: 定位+權重*/  
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 1000;      /* (?)權重比模態框低*/  
-      box-sizing: border-box;
-      width: 100%;  
-      height: 54px;
-      background-color: #FFFFFF;
-    }
-    .l-nav-container {
-      display: flex;
-      justify-content: space-between;
-      max-width: 1200px;
-      margin: 10px auto;  
-    }
-    .m-nav-title {
-      width: 150px;
-      height: 100%;
-      font-weight: 700;
-      font-size: 30px;
-      color: #448899;
-      white-space:nowrap;
-    }
-    .m-nav-links {
-      display: flex;
-      justify-content: space-between;
-      width: 175px;
-      height: 100%;
-      white-space:nowrap;
-    }
-    .m-link-item1{
-      width: 84px;
-      box-sizing: border-box; 
-      padding: 10px;
-      font-weight: 500;
-      font-size: 16px;
-      line-height: 13.3px;
-      color: #666666;
-      background-color: #FFFFFF;
-    }
-    .m-link-item2 {                
-      display: flex;
-      flex-direction: row;
-      width: 91px;
-    }
-    #signinButton , #signupButton{  /*文字相關，包含間距、顏色相關，包含背景色 (x)設flex container會無效 (o)設在各item*/
-      font-weight: 500;
-      font-size: 16px;
-      line-height: 13.3px;
-      white-space: nowrap;          /* flex container設flex-direction: row (讓item同橫列)，仍+設定文字不換行(否則單item內部字垂直往下)*/  
-      padding: 0px;                  
-      color: #666666;
-      background-color: #FFFFFF;
-      white-space:nowrap;
-    }
-    /*背景、模態框&表單*/  
-    .l-backdrop {
-      position: fixed;
-      top: 0;           /*定位: 全設0*/  
-      left: 0;
-      right: 0;
-      bottom: 0;
-      max-width: 1920px;
-      height: 100vh;
-      background-color: rgba(0, 0, 0, 0.25);
-      z-index: 1005;
-      display: none;
-    }
-    .l-modal-signin ,.l-modal-signup {
-      position: fixed; 
-      top: 80px;
-      left: 0;
-      right: 0;
-      margin: auto;    /*跳出模態框水平置中:margin: auto;+額外設left、right:0;*/  
-      width: 340px;  
-      z-index: 1010; 
-      border-radius:6px;
-      box-shadow: 0  4px 60px 0px  #AAAAAA;  /*X Y blur spread均必寫*/
-      flex-direction: column;   /*預設不寫display: flex、但須寫flex方向，切換時才能被套用*/  
-      display: none;
-    }
-    .l-modal-signin{
-      height:275px;
-    }
-    .l-modal-signup{
-      height:332px;
-    }
-    .m-form-bar{
-      background: linear-gradient(270deg, #337788 0%, #66AABB 100%);
-      width: 100%;
-      height: 10px;
-    }
-    .m-form-close{
-      position: absolute;
-      top: 10px;
-      left: 300px;  
-      width: 30px;
-      height:30px;
-      padding:7px;
-      box-sizing: border-box;
-      background-color: #FFFFFF;
-    }
-    .m-form {
-       width: 100%;
-       display: flex;
-       flex-direction: column;
-       justify-content: center;
-       align-items: center;
-       position: relative;
-       background-color: #FFFFFF;
-       padding: 15px;
-       box-sizing: border-box;
-    }
-    .m-form-title,.m-form-input,.m-form-button,.m-form-link{
-      width: 100%;
-    }
-    .m-form-title{
-      height:27px;
-      font-weight:700;
-      font-size: 24px;
-      line-height: 24px;
-      text-align: center;
-      color: #666666;
-    }
-    .m-form-input{
-      height: 47px;
-      padding: 15px;
-      margin: 5px 0px;
-      border-radius: 5px;
-      border: 1px solid #CCCCCC;
-      box-sizing: border-box; 
-      font-weight:500;
-      font-size: 16px;
-      line-height: 13.3px;
-      color: #757575;
-    }
-    .m-form-button{
-      height: 47px;
-      border-radius: 5px;
-      background-color: #448899;
-      margin: 5px 0px;
-      font-weight:400;
-      font-size: 19px;
-      line-height: 14px;
-      text-align:center;
-      color: #FFFFFF;
-    }
-    .m-form-link{
-      height: 22px;
-      font-weight:500;
-      font-size: 16px;
-      line-height: 13.3px;
-      color:#666666;
-      margin-top:10px;
-      text-align: center;
-    }
-    /* hero部分 */
-    .l-hero {
-      width: 100%;
-      height: 320px;
-      display: flex;                    /* 設了才讓下層版面子元素<div class="hero-slogan"> 完整顯示於內部 */     
-      background-image: url('/static/image/welcome_image.png')  ;
-      background-size: cover;          /* 確保背景圖片覆蓋整個元素*/ 
-      background-repeat: no-repeat;
-    }
-    .l-hero-content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;  
-      max-width: 1200px;
-      margin: auto;        /*讓元素內部內容 可水平置中 */  
-      height: 169px;
-      box-sizing: border-box;  /* 設邊距，留意BOX總寬高固定 (讓不同區塊items對齊) */     
-      gap: 10px;               /* 垂直item的間距 */
-      padding: 10px;
-    }   
-    .m-hero-slogan{
-      display: flex;
-      flex-direction: column;
-    }
-    .m-slogan-header, .m-slogan-body{
-      width: 1180px;          /*@@沒設 或 設100%、max-width，只吃到父元素置中+寬很短*/  
-      font-weight: 700;
-      color: #F8F8F8;
-    }
-    .m-slogan-header {
-      height: 41px;
-      font-size: 28px;
-      line-height: 24px;
-      text-shadow: 0 0 30px #AABBCC;
-    }    
-    .m-slogan-body{
-      height: 22px;
-      font-size: 16px;
-      line-height: 13.3px;
-    }   
-    .m-hero-search {
-      width: 100%;
-      height: 46px;
-    }   
-    .m-search-bar{
-      display: flex;
-      flex-direction:row;
-      width: 460px;
-      height: 100%;
-    }
-    .m-search-input {
-      width: 400px;
-      height: 100%;
-      padding: 15px;  
-      border: none;                   
-      border-top-left-radius: 5px;    /*左上+左下才圓角*/  
-      border-bottom-left-radius: 5px;
-      box-sizing: border-box;          /* 未設，內部欄位溢出盒子@@ +盒子總寬減少 */
-      box-shadow: 0 0 20px #AABBCC;
-      font-weight: 700;
-      font-size: 16px;
-      line-height: 13.3px;
-      color: #757575;
-    }   
-    .m-search-button {
-      width: 60px;
-      height: 100%;
-      border-top-right-radius: 5px;    /* 右上+右下才圓角*/ 
-      border-bottom-right-radius: 5px;
-      background-color: #448899;     
-      padding: 8px 15px;           
-    }  
-/* main部分 */
-    .l-main{
-      width: 100%;;
-      height: auto;                /*勿寫死高度 ，無限滾動新資料會跑版*/
-      box-sizing: border-box;
-      padding: 40px 0px;
-    }
-    .l-main-container{             /*整體父元素:寫死寬度*/  
-      display: flex;
-      flex-direction:column;     
-      justify-content: center;   /*相對於瀏覽器 僅水平置中、不設垂直置中*/  
-      max-width: 1200px;              
-      margin: auto;              /*相對於父元素 水平置中 */  
-      height: auto;
-    }
+  /* main部分 */
+  .l-main{
+    width: 100%;
+    height: auto;                /*勿寫死高度 ，無限滾動新資料會跑版*/
+    box-sizing: border-box;
+    padding: 40px 0px;
+  }
+  .l-main-container{             /*整體父元素:寫死寬度*/  
+    display: flex;
+    flex-direction:column;     
+    justify-content: center;   /*相對於瀏覽器 僅水平置中、不設垂直置中*/  
+    align-items: center; 
+    max-width: 1200px;              
+    margin: auto;              /*相對於父元素 水平置中 */  
+    height: auto;
+  }
 /* 捷運站名列表 */  
-    .m-main-list-bar{
-      display: flex;
-      height:70px;
-      box-sizing: border-box; 
-      padding-bottom:20px;
-      overflow: hidden;
-      white-space: nowrap;
-    }   
-    .m-list-bar-left-arrow,.m-list-bar-right-arrow{
-      width:47px;
-      border: none;
-      box-sizing: border-box;
-      background-color: transparent; 
-    }
-    .m-list-bar-left-arrow:hover, .m-list-bar-right-arrow:hover {
-      opacity: 0.5;  
-    }
-    .m-list-bar-left-arrow{
-      padding: 9px 0px 9px 15px;
-    }
-    .m-list-bar-right-arrow{
-      padding: 9px 15px 9px  0px;
-    }
-    .m-list-bar-icon{
-      box-sizing: border-box;
-      border: 1px solid #b3ababb2;
-      border-radius: 100px;
-    }
-    .m-list-bar-container{
-      width:1106px;
-      box-sizing: border-box;
-      padding: 13px 10px;
-    }  
-    .m-list-bar-items{
-      display: flex;
-      height:24px;
-      box-sizing: border-box;
-      white-space: nowrap; 
-      overflow: hidden; /*寫了才有空間讓js事件確實發生位移*/ /*勿寫overflow-x: auto; 變成純靠水平卷軸移動*/ 
-    }
-    .m-list-bar-item{      
-      box-sizing: border-box;
-      flex: 0 0 auto;        /*項目不伸縮，依原大小顯示*/
-      padding: 5px 15px;
-      cursor: pointer; 
-    }
+  .m-main-list-bar{
+    display: flex;
+    height:70px;
+    box-sizing: border-box; 
+    padding-bottom:20px;
+    overflow: hidden;
+    white-space: nowrap;
+  }   
+  .m-list-bar-left-arrow,.m-list-bar-right-arrow{
+    width:47px;
+    border: none;
+    box-sizing: border-box;
+    background-color: transparent; 
+  }
+  .m-list-bar-left-arrow:hover, .m-list-bar-right-arrow:hover {
+    opacity: 0.5;  
+  }
+  .m-list-bar-left-arrow{
+    padding: 9px 0px 9px 15px;
+  }
+  .m-list-bar-right-arrow{
+    padding: 9px 15px 9px  0px;
+  }
+  .m-list-bar-icon{
+    box-sizing: border-box;
+    border: 1px solid #b3ababb2;
+    border-radius: 100px;
+  }
+  .m-list-bar-container{
+    width:1106px;
+    box-sizing: border-box;
+    padding: 13px 10px;
+  }  
+  .m-list-bar-items{
+    display: flex;
+    height:24px;
+    box-sizing: border-box;
+    white-space: nowrap; 
+    overflow: hidden; /*寫了才有空間讓js事件確實發生位移*/ /*勿寫overflow-x: auto; 變成純靠水平卷軸移動*/ 
+  }
+  .m-list-bar-item{      
+    box-sizing: border-box;
+    flex: 0 0 auto;        /*項目不伸縮，依原大小顯示*/
+    padding: 5px 15px;
+    cursor: pointer; 
+  }
 /*景點*/  
-    .l-attraction-grid{      /*整體父元素:總寬=main容器)*/
-      height: auto;         /*勿寫死高度 ，無限滾動新資料爆版 (但內部每1格子可寫死總寬高)*/ 
-      display: grid;
-      grid-template-columns: repeat(4, 1fr); /* grid的item:每1個格子、column: 每一橫排*/  
-      gap: 30px;           /*每一排網格垂直距離*/  
-      padding: 15px;
-      justify-content: center;
-      align-items: start;
-      box-sizing: border-box;
-    }
-    .m-container-items {     /* 相對父元素:可寫死總寬高*/  
-        display: flex;
-        justify-content: flex-start;
-        flex: 1;  
-        flex-direction: column;    /* flex的item: 每1層直接的子元素、column: 每1直欄 */  
-        height: 242px;             /* flex的item沒正常顯示? 總寬高足夠 */  
-        width: 270px;
-        border:1px solid #e8e8e8;
-        border-radius: 5px;
-        overflow: hidden;
-    }
-    .m-container-imageAndTitle{    
-        position: relative;  
-    }
-    .m-attraction-image {
-        width: 100%;        /*圖片寬高:設在專門放背景圖元素*/    
-        height: 197px;
-        background-position: center;
-        background-size: cover;
-        background-repeat: no-repeat;
-    }
-    .m-attraction-name {  /*顯示圖片內部: 疊上去->定位(相對於"包含自己+要疊者的父容器"&位置)+權重*/ /*文字一定程度滿版: block+寬度相對父元素100%+背景色*/
-        display: block;  
-        position: absolute;            
-        bottom: 0;
-        z-index: 103;
-        width: 100%;
-        height:40px;
-        padding: 10px;
-        box-sizing: border-box;
-        color: #FFFFFF;
-        background-color: #000000;
-        opacity: 0.6;
-        font-weight: 700;
-        font-size: 16px;
-        line-height: 13.3px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-    .m-flexible-container {
-        width: 100%;
-        height: 100%;
-        padding: 10px;
-        display: flex;         /*本身容器，影響item為mrt+category這2個span元素*/ 
-        justify-content: space-between;  
-        align-items: center;
-        font-weight: 500;
-        font-size: 16px;
-        line-height: 13.3px;
-        color: #757575;
-        background-color: #FFFFFF;
-        box-sizing: border-box;
-        
-    }
-    /* footer部分 */
-    .l-footer{
+  .l-attraction-grid{      /*整體父元素:總寬=main容器)*/
+    height: auto;         /*勿寫死高度 ，無限滾動新資料爆版 (但內部每1格子可寫死總寬高)*/ 
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* grid的item:每1個格子、column: 每一橫排*/  
+    gap: 30px;           /*每一排網格垂直距離*/  
+    padding: 15px;
+    justify-content: center;
+    align-items: start;
+    box-sizing: border-box;
+  }
+  .m-container-items {     /* 相對父元素:可寫死總寬高*/  
+      display: flex;
+      justify-content: flex-start;
+      flex: 1;  
+      flex-direction: column;    /* flex的item: 每1層直接的子元素、column: 每1直欄 */  
+      height: 242px;             /* flex的item沒正常顯示? 總寬高足夠 */  
+      width: 270px;
+      border:1px solid #e8e8e8;
+      border-radius: 5px;
+      overflow: hidden;
+  }
+  .m-container-imageAndTitle{    
+    position: relative;  
+  }
+  #attraction-link{
+    display: flex; 
+    width: 100%;
+    height: 197px;
+  }
+  .m-attraction-image {
+    width: 100%;       
+    object-fit: cover;
+    object-position: center;
+  }
+  .m-attraction-name {  /*顯示圖片內部: 疊上去->定位(相對於"包含自己+要疊者的父容器"&位置)+權重*/ /*文字一定程度滿版: block+寬度相對父元素100%+背景色*/
+      display: block;  
+      position: absolute;            
+      bottom: 0;
+      z-index: 103;
       width: 100%;
-      height: 104px;
+      height:40px;
+      padding: 10px;
       box-sizing: border-box;
-      padding: 40px 0px;            /*設定max-width、不在同元素又設padding左右邊 ->出現橫向卷軸+其他元素 相對離視窗右邊一定程度留白*/  
-      background-color: #757575;
-      margin: 0 auto;
-      display: block; /*搭配JS狀態切換設置*/
-    }
-    .m-footer-text{   
-      width: 100%;          
-      width:  auto;
+      color: #FFFFFF;
+      background-color: #000000;
+      opacity: 0.6;
       font-weight: 700;
       font-size: 16px;
       line-height: 13.3px;
-      white-space: nowrap; 
-      text-align: center;
-      color: #FFFFFF;
-      margin: auto;                
-    }
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
   }
-  @media screen and (max-width: 1199px) {
-    /*逕寫 *或html或body 無法讓所有層級子元素套用width: 100vw; */  
-    /*寫死寬度(含max-width)的子元素: 本身指明寬度% (非佔滿者，把原始大小換算比例) or直接上層父元素寫佔滿視窗vw
-      ->否則(1)撐破父元素，離視窗右邊視覺留白 或(2)裝置小時 爆版重疊*/  
-    .l-nav.l-nav-container .l-backdrop ,.l-hero-content ,.l-main-container,.l-footer {
-      width: 100vw; 
-    }
-    .m-hero-slogan,.m-slogan-header,.m-slogan-body{
-      width: 100vw; 
-      margin: auto;
-    }
-    .m-search-bar{
-      max-width:70%;  /*非佔滿&在最大值裝置較小比例+又在最小值裝置較大比例: max-width:%*/  
-    }
-    .m-search-input{
-      width:80%;
-    }
-    .m-search-button{
-      width: 20%;
-    }
+  .m-flexible-container {
+      width: 100%;
+      height: 100%;
+      padding: 10px;
+      display: flex;         /*本身容器，影響item為mrt+category這2個span元素*/ 
+      justify-content: space-between;  
+      align-items: center;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 13.3px;
+      color: #757575;
+      background-color: #FFFFFF;
+      box-sizing: border-box;
+  }
+}
+@media screen and (max-width: 1199px) {
+  .l-hero-content ,.l-main-container {
+    width: 100vw; 
+  }
+  .m-hero-slogan,.m-slogan-header,.m-slogan-body{
+    width: 100vw; 
+    margin: auto;
+  }
+  .m-search-bar{
+    max-width:70%;  /*非佔滿&在最大值裝置較小比例+又在最小值裝置較大比例: max-width:%*/  
+  }
+  .m-search-input{
+    width:80%;
+  }
+  .m-search-button{
+    width: 20%;
+  }
 
-    /* 站名列表 @@自行計算減去2邊箭頭->否則寬度減少，箭頭按鈕無顯示於頁面*/  
-    .m-list-bar-container {
-      width: calc(100% - 94px); 
-    }
-     /* 景點網格、內部子元素 */
-    .l-attraction-grid { 
-      width: 100vw; 
-      grid-template-columns: repeat(auto-fill,minmax(45%,1fr)); 
-    }
-    .m-container-items{   
-      width: 100%;
-    }
+  /* 站名列表 @@自行計算減去2邊箭頭->否則寬度減少，箭頭按鈕無顯示於頁面*/  
+  .m-list-bar-container {
+    width: calc(100% - 94px); 
   }
-  @media (max-width: 360px) {
-    .l-backdrop ,.l-hero-content ,.l-main-container,.l-footer {
-      width: 90vw; 
-    }
-    .m-hero-slogan,.m-slogan-header,.m-slogan-body,.m-search-bar{
-      width: 90vw; 
-      margin: auto;
-    }
-    .m-search-bar{
-      width: 95vw;
-    }
-    /* 站名列表 */  
-    .m-list-bar-container {
-      width: calc(100% - 94px); 
-    }
-     /* 景點 */
-    .l-attraction-grid { 
-      width: 90vw; 
-      grid-template-columns: repeat(auto-fill,minmax(100%,1fr)); 
-    }
-    .m-container-items{   
-      width: 100%;
-    }
+    /* 景點網格、內部子元素 */
+  .l-attraction-grid { 
+    width: 100vw; 
+    grid-template-columns: repeat(auto-fill,minmax(45%,1fr)); 
   }
+  .m-container-items{   
+    width: 100%;
+  }
+}
+@media (max-width: 360px) {
+  .l-hero-content ,.l-main-container{
+    width: 90vw; 
+  }
+  .m-hero-slogan,.m-slogan-header,.m-slogan-body,.m-search-bar{
+    width: 90vw; 
+    margin: auto;
+  }
+  .m-search-bar{
+    width: 95vw;
+  }
+  /* 站名列表 */  
+  .m-list-bar-container {
+    width: calc(100% - 94px); 
+  }
+    /* 景點 */
+  .l-attraction-grid { 
+    width: 90vw; 
+    grid-template-columns: repeat(auto-fill,minmax(100%,1fr)); 
+  }
+  .m-container-items{   
+    width: 100%;
+  }
+}

@@ -1,0 +1,255 @@
+@media screen and (max-width: 1920px) {
+    /* main部分 */
+    .l-main{
+        width: 100%;
+        height: auto;                /*勿寫死高度 ，無限滾動新資料會跑版*/
+        box-sizing: border-box;
+        padding: 40px 0px;
+    }
+    .l-main-container{          
+        display: flex ;
+        flex-direction:column ;     
+        justify-content: center ;   /*相對於瀏覽器 僅水平置中、不設垂直置中*/  
+        align-items: center ; 
+        max-width: 1200px;              
+        margin: auto;              /*相對於父元素 水平置中 */  
+        height: auto;
+        padding-top: 60px;
+        box-sizing: border-box;
+    }
+    /*2個橫向 相對父容器通用*/
+    .m-attraction-container1,.m-attraction-container2{
+        color: #666666;  /*僅按鈕微調: 後面再重設定來覆蓋*/
+    }
+    .m-form-header,.m-form-label,.m-attraction-title{
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 13.3px;
+    }
+    /* 第1個橫向 相對父容器*/  
+    .m-attraction-container1{
+        display: flex;
+        justify-content: space-between; 
+        width:100%;
+        height:400px;
+    }
+    .m-attraction-slider{
+        position: relative;
+        width:540px;
+        height:100%;
+    }
+    .m-slider-img{
+        object-fit: cover;  /*替代<div>屬性background引入url、size */  
+        width:100%;
+        height:100%;
+        border-radius: 5px;
+    }
+    .m-slider-arrow{  /*定位正中間:top跟transform都設定*/ 
+        z-index: 101;
+        position: absolute;
+        top:50%;           
+        left: 0;
+        right: 0;
+        transform: translateY(-50%);     
+        width:100%;
+        display: flex;
+        justify-content: space-between; /*離左右邊幾乎沒間距(x)space-around*/
+        height:36px;
+    }
+    .m-arrow-icon{
+        width:36px;
+        height:100%;
+        border: none;
+        padding: 0px; /*@@內部有子元素情形，預設有padding*/
+        background-color: transparent;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    .m-arrow-icon:active {   /*過渡後，縮小*/  
+        transform: scale(0.8);
+    }
+    .m-attraction-booking{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        width:600px;
+        height:100%;
+    }
+    .m-slider-circles{
+        display: flex;
+        justify-content: center;
+        position: absolute;
+        top:95%;           
+        left: 0;
+        right: 0;
+        transform: translateY(-95%); 
+        width:100%; 
+    }
+    .m-slider-circle,.m-slider-selectedcircle{
+        height:12px;
+        opacity:0.75;
+    }
+    .m-slider-circle{
+        width:24px;
+    }
+    .m-slider-selectedcircle{
+        padding: 0px 6px;
+    }
+        /*右邊子元素*/
+    .m-booking-header,.m-booking-text,.m-booking-form{
+        width:100%;
+    }
+    .m-booking-header{
+        height: 33px;
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 24px;
+    }
+    .m-booking-text,.m-form-subtitle{
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 13.3px;
+    }
+    .m-form-header,.m-booking-text,.m-form-item,.m-form-radio{
+        height: 22px; 
+    }
+    .m-booking-form{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 302px;
+        padding: 20px;
+        box-sizing: border-box;
+        border-radius: 5px;
+        background-color: #E8E8E8;
+    } 
+    .m-form-subtitle{
+        height:24px;
+    }
+    #date{
+        height:35px;
+        border: none;
+        margin-left: 3px;
+    }
+    .m-form-radio{  
+        appearance: none; /*去除 radio的預設樣式*/  
+        width: 16px;      /*比該行height略小，讓圓點+更小line-height文字較能貼齊 該橫排上下底線*/ 
+        height: 16px;
+        /*重新自定義*/
+        border: 2px solid #FFFFFF;
+        border-radius: 50%;
+        box-sizing: border-box;
+        background-color: #FFFFFF; 
+        cursor: pointer;
+    }
+    .m-form-radio:checked{ /*核取的實心圓點改色(1):check+(2)非設定color*/
+        background-color: #448899; 
+    }
+    .m-form-button{
+        margin-bottom:20px;
+        padding: 10px 20px;
+        box-sizing: border-box;
+        width: 154px;
+        height: 36px;
+        border-radius: 5px;
+        background-color: #448899;
+        color: #FFFFFF;
+        font-weight: 400;
+        font-size: 19px;
+        line-height: 16px;
+        text-align: center;
+    }
+    /*分隔線 (不設line-height、height)*/ 
+    .l-main-hr{
+        width:100%;
+        border: 1px solid #E8E8E8;
+        margin: 40px 0px 30px 0px;
+    }
+    /* 第二個橫向 相對父容器*/  
+    .m-attraction-container2{
+        display: flex;
+        flex-direction: column;
+    /*若設justify-content: space-around;首元素間距太多*/
+        width: 100%;
+        min-height: 362px;  /*min-height: 多數情形維持Figma指定高度，爆資料時仍可相似比例版面的高度*/ 
+        padding: 0px 10px;
+        box-sizing: border-box;
+    }
+    .m-attraction-title{
+        height: 32px;
+        padding: 8px 0px ;
+        box-sizing: border-box;
+    }
+    .m-attraction-text{
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 23.17px;
+        width: 100%;
+        height:auto;
+    }
+    .m-attraction-wrapper{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height:auto;
+        margin-top: 20px;
+    }
+}
+@media screen and (max-width: 1199px) {
+    .l-main-container{
+        width: 100vw; 
+        height:auto;
+        justify-content: space-around; /*離左右略間隔*/ 
+    }
+    .m-attraction-slider{
+        max-width:540px;
+    }
+    .m-attraction-booking{
+        max-width:600px;
+        margin-left: 5px;
+        box-sizing: border-box;
+    }
+    .m-form-subtitle,.m-form-item{
+        height: auto;
+    }
+    .m-form-subtitle{
+        line-height: 23.7px;
+    }
+    .m-form-item{
+        white-space: nowrap;
+        text-wrap: nowrap;
+    }
+    .m-form-button{
+        margin-bottom: 0px;
+    }
+    .l-main-hr{
+        width: 95vw;
+    }
+}
+@media (max-width: 360px) {
+    .l-main-container{
+        padding-top: 0px;
+    }
+    .m-attraction-container1{
+        flex-direction: column;
+        height: auto;
+    }
+    /*表單欄位(除了換行者+核取方塊) 改回同桌機高度*/
+    .m-form-header,.m-booking-text,.m-form-item{
+        height: 22px; 
+    }
+    .m-attraction-slider, .m-attraction-booking{
+        width: 100vw;
+    }
+    .m-attraction-slider{
+        height: 350px;
+    }
+    .m-attraction-booking{
+        height: 390px;
+        margin-top: 10px;
+        padding: 0px 10px;
+        box-sizing: border-box;
+    }
+    .m-attraction-container2{
+        min-height: 712px;
+    }
+}

@@ -1,0 +1,56 @@
+<!--用<h>、<p>取代<div>，優化SEO+語意化-->
+<nav  class="l-nav">
+    <div class="l-nav-container">
+      <h1 class="m-nav-logo">
+        <a href="/" class="m-logo-title">台北一日遊</a>
+      </h1>   
+      <ul class="m-nav-links">
+        <li class="m-link-item1">
+          <button id="bookingButton">預定行程</button>
+        </li>
+        <li class="m-link-item2">
+            <button  id="signinButton">登入</button>
+            <button  id="signupButton">/註冊</button>
+          </li>
+        </ul>
+    </div>
+  </nav>
+
+  <!-- 點擊才彈出模態框裝表單 -->
+  <!--連帶 控制背景 (x)逕操作<body>樣式  (o)單獨元素+調高css權重 ，則無需放<body>首層子元素-->
+  <div id="modalBackdrop" class="l-backdrop"></div>
+  <!-- 模態框裝表單:登入(外層容器 +  x鈕  +表單主體) -->
+  <div id="modalSignin"  class="l-modal-signin">
+    <div class="m-form-bar"></div>
+    <form   class="m-form">
+      <button type="button" class="m-form-close">
+        <img src="/static/image/close.png" alt="fromClose">
+      </button>
+      <h2 class="m-form-title">登入會員帳號</h2>
+      <input type="email" id="signin-email" class="m-form-input" placeholder="輸入電子信箱" name="signin-email" required>
+      <input type="password" id="signin-password" class="m-form-input" placeholder="輸入密碼" name="signin-password" required>
+      <button type="submit" class="m-form-button">登入帳戶</button>
+      <p class="m-form-link">還沒有帳戶?點此註冊</p>
+    </form>
+  </div>
+  <!--模態框裝表單:註冊 -->
+  <div id="modalSignup" class="l-modal-signup">
+    <div class="m-form-bar"></div>
+    <form class="m-form">
+      <button  type="button" class="m-form-close">
+        <img src="/static/image/close.png" alt="formClose">
+      </button>
+      <h2 class="m-form-title">註冊會員帳號</h2>
+      <input type="text" id="signup-name" class="m-form-input" placeholder="輸入姓名" name="signup-name" required>
+      <input type="email" id="signup-email" class="m-form-input" placeholder="輸入電子郵件" name="signup-email" required>
+      <input id="signup-password" class="m-form-input" type="password" placeholder="輸入密碼" name="signup-password" required>
+      <button type="submit" class="m-form-button">註冊新帳戶</button>
+      <p class="m-form-link">已經有帳戶了?登入</p>
+    </form>
+  </div>
+
+  
+  <footer id="footer" class="l-footer">
+    <p class="m-footer-text">COPYRIGHT © 2021 台北一日遊</p>
+  </footer>
+  
