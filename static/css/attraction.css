@@ -208,7 +208,7 @@
         margin-left: 5px;
         box-sizing: border-box;
     }
-    .m-form-subtitle,.m-form-item{
+    .m-booking-header,.m-form-subtitle,.m-form-item{
         height: auto;
     }
     .m-form-subtitle{
@@ -233,7 +233,7 @@
         flex-direction: column;
         height: auto;
     }
-    /*表單欄位(除了換行者+核取方塊) 改回同桌機高度*/
+    /*表單欄位(除了字多會換行者+核取方塊) 改回同桌機高度*/
     .m-form-header,.m-booking-text,.m-form-item{
         height: 22px; 
     }
@@ -244,10 +244,21 @@
         height: 350px;
     }
     .m-attraction-booking{
-        height: 390px;
-        margin-top: 10px;
+        min-height: 390px;
+        margin-top: 20px;
         padding: 0px 10px;
         box-sizing: border-box;
+    }
+    .m-booking-text{
+        margin-top: 20px;
+        box-sizing: border-box;
+    }
+    .m-booking-form{
+        margin-top: 15px;
+        box-sizing: border-box;
+    }
+    #date{
+        width:193px;
     }
     .m-attraction-container2{
         min-height: 712px;
