@@ -12,6 +12,7 @@ const attractionDescription = document.getElementById('description');
 const attractionAddress = document.getElementById('address');
 const attractionTransport = document.getElementById('transport');
 //景點圖切換
+let isFirstLoad = true;
 let currentIndex =0; 
 const currentImage= document.getElementById('img');
 const leftArrow= document.getElementById('left-arrow');
@@ -58,25 +59,67 @@ async function fetchAttractionData(attractionId) {
 }
 
 /*滑動顯示單圖*/
-//(一)渲染單圖
+//(一)渲染單圖，含點擊時滑動  +搭配 節流功能
+  const throttle = (callback, delay = 2000) => {
+    let shouldWait = false;
+    let waitingArgs;
+
+    const timeoutFunc = () => {
+      if (waitingArgs == null) {
+        shouldWait = false;
+      } else {
+        callback(...waitingArgs);
+        waitingArgs = null;
+        setTimeout(timeoutFunc, delay);
+      }
+    };
+
+    return (...args) => {
+      if (shouldWait) {
+        waitingArgs = args;
+        return;
+      }
+      callback(...args);
+      shouldWait = true;
+      setTimeout(timeoutFunc, delay);
+    }
+  };
+  // 處理 點擊事件
+    //(往左操作: 遞減+考量首張時，例外更新值為尾張圖索引 )(往右:遞增，尾張時，例外更新值為首張索引)
+    // 呼叫更新值函式，務必傳入參數景點資料 +記得連帶更新當前圓點傳入的currentIndex   
+  const handleArrowClick = (direction) => {
+    currentIndex = direction === 'left'
+      ? (currentIndex > 0 ? currentIndex - 1 : attraction.images.length - 1)
+      : (currentIndex < attraction.images.length - 1 ? currentIndex + 1 : 0);
+    updateImage(attraction);
+    updateCurrentCircle(currentIndex);
+  };
+  // 用節流函數包裝的事件 執行監聽器
+  const throttledLeftArrowClick = throttle(() => handleArrowClick('left'), 2000);
+  const throttledRightArrowClick = throttle(() => handleArrowClick('right'), 2000);
+
+  leftArrow.addEventListener('click', throttledLeftArrowClick);
+  rightArrow.addEventListener('click', throttledRightArrowClick);
+
+
 function  updateImage(attraction){  
-    currentImage.src= attraction.images[currentIndex];    
+    currentImage.src = attraction.images[currentIndex];
+    //考量限制條件: 非首次加載頁面才淡出入
+    if (isFirstLoad) {
+        isFirstLoad = false;
+    }else{
+        //淡出-出場消失效果
+        currentImage.style.opacity = 0.5; 
+        //淡入(延遲時間回原圖)
+        setTimeout(() => {
+            currentImage.style.opacity = 1;
+        }, 600); //等同 CSS transition 秒數
+    }
 }
-//觸發事件時建立&執行監聽->呼叫更新值函式，務必傳入參數景點資料 +記得連帶更新當前圓點傳入的currentIndex
-//(往左操作: 遞減+考量首張時，例外更新值為尾張圖索引 )(往右:遞增，尾張時，例外更新值為首張索引)
-leftArrow.addEventListener('click', function() {
-        currentIndex = currentIndex > 0 ? currentIndex - 1 : attraction.images.length - 1;
-        updateImage(attraction);
-        updateCurrentCircle(currentIndex);
-});
-rightArrow.addEventListener('click', function() {
-        currentIndex = currentIndex < attraction.images.length - 1 ? currentIndex + 1 : 0;
-        updateImage(attraction);
-        updateCurrentCircle(currentIndex);
-});
-//(二)圓點顯示滑動哪張 (因圓點數固定,分開寫)  1.先讓每1圖片元素 動態生成元素DOM，確立圓點總數 2. 利用currentIndex來對應哪個圓點改變css
+//(二)圓點顯示滑動哪張 (因圓點數固定,分開寫新函式)  1.先讓每1圖片元素 動態生成元素DOM，確立圓點總數 2. 利用currentIndex來對應哪個圓點改變css
     //遍歷寫法: 只利用陣列長度->for迴圈更有效率 、細部操作陣列資料值->forEach更方便
 function createCircles(totalImages) {               //呼叫時，再把參數改成實際資料值attraction.images.length
+    circlesContainer.innerHTML = '';
     for (let i = 0; i < totalImages; i++) {         
         const circle = document.createElement('img');
         circle.className = 'm-slider-circle';

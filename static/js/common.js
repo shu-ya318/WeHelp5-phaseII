@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
           modalBackdrop: document.getElementById('modalBackdrop'), 
           modalSignin: document.getElementById('modalSignin'),
           modalSignup: document.getElementById('modalSignup'),
-          formCloses: document.querySelectorAll('.m-form-close') 
+          formCloses: document.querySelectorAll('.m-memberForm-close') 
         };
         if (modalDOMs.signinButton && modalDOMs.signupButton) { 
           handleMemberAuth(modalDOMs);
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
   /*表單*/  
   function handleMemberAuth(modalDOMs) {
     modalDOMs.signinButton.addEventListener('click', function(event) {
-      modalDOMs.modalbackdrop.style.display = 'flex';
+      modalDOMs.modalBackdrop.style.display = 'flex';
       modalDOMs.modalSignin.style.display = 'flex';
       modalDOMs.modalSignup.style.display = 'none';
     });

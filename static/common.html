@@ -21,31 +21,35 @@
   <div id="modalBackdrop" class="l-backdrop"></div>
   <!-- 模態框裝表單:登入(外層容器 +  x鈕  +表單主體) -->
   <div id="modalSignin"  class="l-modal-signin">
-    <div class="m-form-bar"></div>
-    <form   class="m-form">
-      <button type="button" class="m-form-close">
-        <img src="/static/image/close.png" alt="fromClose">
-      </button>
-      <h2 class="m-form-title">登入會員帳號</h2>
-      <input type="email" id="signin-email" class="m-form-input" placeholder="輸入電子信箱" name="signin-email" required>
-      <input type="password" id="signin-password" class="m-form-input" placeholder="輸入密碼" name="signin-password" required>
-      <button type="submit" class="m-form-button">登入帳戶</button>
-      <p class="m-form-link">還沒有帳戶?點此註冊</p>
+    <div class="m-memberForm-bar"></div>
+    <form   class="m-memberForm">
+      <div class="m-memberForm-headerAndClose">
+        <h2 class="m-memberForm-header">登入會員帳號</h2>
+        <button type="button" class="m-memberForm-close">
+          <img src="/static/image/close.png" alt="fromClose">
+        </button>
+      </div>
+      <input type="email" id="signin-email" class="m-memberForm-input" placeholder="輸入電子信箱" name="signin-email" required>
+      <input type="password" id="signin-password" class="m-memberForm-input" placeholder="輸入密碼" name="signin-password" required>
+      <button type="submit" class="m-memberForm-button">登入帳戶</button>
+      <p class="m-memberForm-link">還沒有帳戶?點此註冊</p>
     </form>
   </div>
   <!--模態框裝表單:註冊 -->
   <div id="modalSignup" class="l-modal-signup">
-    <div class="m-form-bar"></div>
-    <form class="m-form">
-      <button  type="button" class="m-form-close">
-        <img src="/static/image/close.png" alt="formClose">
-      </button>
-      <h2 class="m-form-title">註冊會員帳號</h2>
-      <input type="text" id="signup-name" class="m-form-input" placeholder="輸入姓名" name="signup-name" required>
-      <input type="email" id="signup-email" class="m-form-input" placeholder="輸入電子郵件" name="signup-email" required>
-      <input id="signup-password" class="m-form-input" type="password" placeholder="輸入密碼" name="signup-password" required>
-      <button type="submit" class="m-form-button">註冊新帳戶</button>
-      <p class="m-form-link">已經有帳戶了?登入</p>
+    <div class="m-memberForm-bar"></div>
+    <form class="m-memberForm">
+      <div class="m-memberForm-headerAndClose">
+        <h2 class="m-memberForm-header">註冊會員帳號</h2>
+        <button  type="button" class="m-memberForm-close">
+          <img src="/static/image/close.png" alt="formClose">
+        </button>
+      </div>
+      <input type="text" id="signup-name" class="m-memberForm-input" placeholder="輸入姓名" name="signup-name" required>
+      <input type="email" id="signup-email" class="m-memberForm-input" placeholder="輸入電子郵件" name="signup-email" required>
+      <input id="signup-password" class="m-memberForm-input" type="password" placeholder="輸入密碼" name="signup-password" required>
+      <button type="submit" class="m-memberForm-button">註冊新帳戶</button>
+      <p class="m-memberForm-link">已經有帳戶了?登入</p>
     </form>
   </div>
 

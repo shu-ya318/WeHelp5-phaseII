@@ -19,7 +19,7 @@
     }
     /*2個橫向 相對父容器通用*/
     .m-attraction-container1,.m-attraction-container2{
-        color: #666666;  /*僅按鈕微調: 後面再重設定來覆蓋*/
+        color: #666666;  /*僅按鈕 需微調: 重設定來覆蓋*/
     }
     .m-form-header,.m-form-label,.m-attraction-title{
         font-weight: 700;
@@ -43,6 +43,7 @@
         width:100%;
         height:100%;
         border-radius: 5px;
+        transition: opacity 0.6s ease; /*過場的延遲時間*/
     }
     .m-slider-arrow{  /*定位正中間:top跟transform都設定*/ 
         z-index: 101;
@@ -60,7 +61,7 @@
         width:36px;
         height:100%;
         border: none;
-        padding: 0px; /*@@內部有子元素情形，預設有padding*/
+        padding: 0px; /*@@內部有子元素，會預設有padding*/
         background-color: transparent;
         transition: background-color 0.3s ease, transform 0.2s ease;
     }
@@ -76,6 +77,7 @@
     }
     .m-slider-circles{
         display: flex;
+        flex-wrap: wrap;
         justify-content: center;
         position: absolute;
         top:95%;           
@@ -87,6 +89,7 @@
     .m-slider-circle,.m-slider-selectedcircle{
         height:12px;
         opacity:0.75;
+        transition: all 0.3s ease;
     }
     .m-slider-circle{
         width:24px;
@@ -122,10 +125,16 @@
         border-radius: 5px;
         background-color: #E8E8E8;
     } 
+    .m-form-header{
+        margin: 0px;  /* 移除  <h>似乎預設 margin: auto+padding-left */
+        padding: 0px;
+        text-align: left;
+    }
     .m-form-subtitle{
         height:24px;
     }
     #date{
+        width:193px;
         height:35px;
         border: none;
         margin-left: 3px;
@@ -135,6 +144,7 @@
         width: 16px;      /*比該行height略小，讓圓點+更小line-height文字較能貼齊 該橫排上下底線*/ 
         height: 16px;
         /*重新自定義*/
+        box-sizing: border-box;
         border: 2px solid #FFFFFF;
         border-radius: 50%;
         box-sizing: border-box;
@@ -143,6 +153,9 @@
     }
     .m-form-radio:checked{ /*核取的實心圓點改色(1):check+(2)非設定color*/
         background-color: #448899; 
+    }
+    #afternoon{
+        margin-left: 20px; /*手動調整 和上下欄相對水平位置*/
     }
     .m-form-button{
         margin-bottom:20px;
@@ -170,7 +183,7 @@
         flex-direction: column;
     /*若設justify-content: space-around;首元素間距太多*/
         width: 100%;
-        min-height: 362px;  /*min-height: 多數情形維持Figma指定高度，爆資料時仍可相似比例版面的高度*/ 
+        min-height: 362px;  /*min-height: 多數情形維持Figma指定高度，爆資料時仍相似比例版面的高度*/ 
         padding: 0px 10px;
         box-sizing: border-box;
     }
@@ -201,15 +214,23 @@
         justify-content: space-around; /*離左右略間隔*/ 
     }
     .m-attraction-slider{
-        max-width:540px;
+        width:100%;
+        margin-left: 5px; /*水平略間隔 (不同子元素需平均margin)*/ 
+    }
+    .m-slider-circles {
+        flex-wrap: wrap;  /*考量極端多圖情形*/
     }
     .m-attraction-booking{
         max-width:600px;
-        margin-left: 5px;
+        margin: 0px 8px;
         box-sizing: border-box;
     }
     .m-booking-header,.m-form-subtitle,.m-form-item{
         height: auto;
+    }
+    .m-booking-form{
+        padding-bottom: 10px;
+        box-sizing: border-box;
     }
     .m-form-subtitle{
         line-height: 23.7px;
@@ -218,6 +239,9 @@
         white-space: nowrap;
         text-wrap: nowrap;
     }
+    #afternoon {
+        margin-left: 5px;
+    }
     .m-form-button{
         margin-bottom: 0px;
     }
@@ -225,7 +249,7 @@
         width: 95vw;
     }
 }
-@media (max-width: 360px) {
+@media (max-width: 500px) {
     .l-main-container{
         padding-top: 0px;
     }
@@ -242,11 +266,12 @@
     }
     .m-attraction-slider{
         height: 350px;
+        margin-left:0px;    /*滿版:移除平板留白*/
     }
     .m-attraction-booking{
         min-height: 390px;
         margin-top: 20px;
-        padding: 0px 10px;
+        padding: 0px 15px 0px 10px;
         box-sizing: border-box;
     }
     .m-booking-text{
@@ -260,7 +285,12 @@
     #date{
         width:193px;
     }
+    .l-main-hr{
+        margin-left: 10px;
+        box-sizing: border-box;
+    }
     .m-attraction-container2{
         min-height: 712px;
+        width: 94vw;
     }
 }

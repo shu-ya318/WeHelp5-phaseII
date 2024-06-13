@@ -212,6 +212,9 @@
     width: 100vw; 
     margin: auto;
   }
+  .m-slogan-body{
+    margin-top: 10px;
+  }
   .m-search-bar{
     max-width:70%;  /*非佔滿&在最大值裝置較小比例+又在最小值裝置較大比例: max-width:%*/  
   }
@@ -221,7 +224,6 @@
   .m-search-button{
     width: 20%;
   }
-
   /* 站名列表 @@自行計算減去2邊箭頭->否則寬度減少，箭頭按鈕無顯示於頁面*/  
   .m-main-list-bar{
     width: 100vw; 
@@ -238,13 +240,18 @@
     width: 100%;
   }
 }
-@media (max-width: 360px) {
+@media (max-width: 500px) {
   .l-hero-content ,.l-main-container{
-    width: 90vw; 
+    width: 100vw; 
   }
   .m-hero-slogan,.m-slogan-header,.m-slogan-body,.m-search-bar{
-    width: 90vw; 
-    margin: auto;
+    width: 100vw; 
+  }
+  .m-slogan-header{
+    margin-bottom: 5px;
+  }
+  .m-slogan-body{
+    margin-top: 15px;
   }
   .m-search-bar{
     width: 95vw;
@@ -255,7 +262,7 @@
   }
     /* 景點 */
   .l-attraction-grid { 
-    width: 90vw; 
+    width: 100vw; 
     grid-template-columns: repeat(auto-fill,minmax(100%,1fr)); 
   }
   .m-container-items{   
