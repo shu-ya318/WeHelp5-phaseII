@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Index</title>
+  <link rel="stylesheet" type="text/css"  href="/static/css/common.css">
   <link rel="stylesheet" type="text/css" href="/static/css/index.css">  
   <!--引用字型-->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,52 +12,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+  <div id="common-container"></div>  <!-- 引入共同內容部分 (佔位符元素) -->
   <header>
-    <nav  class="l-nav">
-      <div class="l-nav-container">
-        <div class="m-nav-title">台北一日遊</div>
-        <ul class="m-nav-links">
-          <li class="m-link-item1">預定行程</li>
-          <li class="m-link-item2">
-              <button  id="signinButton">登入</button>
-              <button  id="signupButton">/註冊</button>
-            </li>
-          </ul>
-    </div>
-    </nav>
-    <!-- 點擊才彈出模態框裝表單 -->
-    <!--連帶 控制背景 (x)逕操作<body>元素樣式(o)單獨元素，且調高css權重就不用放<body>第一層子元素-->
-    <div class="l-backdrop"></div>
-    <!-- 模態框裝表單:登入(外層容器 + x鈕 +表單主體) -->
-    <div class="l-modal-signin">
-      <div class="m-form-bar"></div>
-      <form   class="m-form">
-        <button class="m-form-close">
-          <img src="/static/image/close.png" alt="fromClose">
-        </button>
-        <div class="m-form-title">登入會員帳號</div>
-        <input type="email" id="signin-email" class="m-form-input" placeholder="輸入電子信箱" required>
-        <input type="password" id="signin-password" class="m-form-input" placeholder="輸入密碼" required>
-        <button type="submit" class="m-form-button">登入帳戶</button>
-        <div class="m-form-link">還沒有帳戶?點此註冊</div>
-      </form>
-    </div>
-    <!--模態框裝表單:註冊 -->
-    <div class="l-modal-signup">
-      <div class="m-form-bar"></div>
-      <form class="m-form">
-        <button class="m-form-close">
-          <img src="/static/image/close.png" alt="formClose">
-        </button>
-        <div class="m-form-title">註冊會員帳號</div>
-        <input type="text" id="signup-name" class="m-form-input" placeholder="輸入姓名" name="signup-name" required>
-        <input type="email" id="signup-email" class="m-form-input" placeholder="輸入電子郵件" name="signup-email" required>
-        <input id="signup-password" class="m-form-input" type="password" placeholder="輸入密碼" name="signup-password" required>
-        <button type="submit" class="m-form-button">註冊新帳戶</button>
-        <div class="m-form-link">已經有帳戶了?登入</div>
-      </form>
-    </div>
-
     <section class="l-hero">
       <div class="l-hero-content">
         <div class="m-hero-slogan">
@@ -65,8 +22,8 @@
         </div>
         <div class="m-hero-search">
           <div class="m-search-bar">
-            <input class="m-search-input" type="text" placeholder="輸入景點名稱查詢" />
-            <button class="m-search-button">
+            <input id="search-input" class="m-search-input" type="text" placeholder="輸入景點名稱查詢" required/>
+            <button id="search-button" class="m-search-button">
               <img class="m-search-icon" src="/static/image/search.png" alt="Search"/>
             </button>
           </div>
@@ -74,44 +31,42 @@
       </div>
     </section>
   </header>
-  <main class="l-main">
+  <main class="l-main" id="main">
     <div class="l-main-container">
       <div class="m-main-list-bar">
-        <button class="m-list-bar-left-arrow">
-          <img class="m-list-bar-icon" src="/static/image/left_arrow.png" alt="left_icon"/>
+        <button id="left-arrow" class="m-list-bar-left-arrow">
+          <img class="m-list-bar-icon" src="/static/image/left_arrow.png" alt="left-arrow-icon"/>
         </button>
         <div class="m-list-bar-container">
            <!--捷運站名:動態生成+設定-->
-           <ul class="m-list-bar-items">
+           <ul id="mrts-list" class="m-list-bar-items">
              <!-- <li class="containeritem">資料值為站名</li>-->
            </ul>
         </div>
-        <button class="m-list-bar-right-arrow">
-          <img class="m-list-bar-icon" src="/static/image/right_arrow.png" alt="right_icon"/>
+        <button id="right-arrow" class="m-list-bar-right-arrow">
+          <img class="m-list-bar-icon" src="/static/image/right_arrow.png" alt="right-arrow-icon"/>
         </button>
       </div>
        <!--景點:動態生成+設定-->
-       <section class="l-attraction-grid" id="attractions-grid">
-        <!--
-      <div id="attractions-grid"> 
-          <div class="m-container-items">
-            <div class="m-container-imageAndTitle">
-              <div class="m-attraction-image" style="background-image: url('...圖片網址...')"></div> 
-              <div class="m-attraction-name">景點名稱</div>
-            </div>
-            <div class="m-flexible-container">
-              <span>捷運站名</span>
-              <span>景點類別</span>
-            </div>
-         </div>
-      </div>
-        -->
+       <section id="attractions-grid" class="l-attraction-grid" id="attractions-grid">
+        <!-- <div class="m-container-items">
+              <div class="m-container-imageAndTitle">
+                <a id="attraction-link" href="動態操作取得值"  >
+                  <img class="m-attraction-image" src="佔位符->取得圖片URL->懶加載後顯示"></div> 
+                </a>
+                <div class="m-attraction-name">
+                  景點名稱
+                </div>
+              </div>
+              <div class="m-flexible-container">
+                <span>捷運站名</span>
+                <span>景點類別</span>
+              </div>
+         </div> -->
       </section>
     </div>  
   </main>
-  <footer class="l-footer">
-    <div class="m-footer-text">COPYRIGHT © 2021 台北一日遊</div>
-  </footer>
+  <script type="text/javascript" src="/static/js/common.js"></script>
   <script type="text/javascript" src="/static/js/index.js"></script>
 </body>
 </html>

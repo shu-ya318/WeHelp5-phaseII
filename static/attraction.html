@@ -4,8 +4,82 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Attraction</title>
+  <link rel="stylesheet" type="text/css"  href="/static/css/common.css">
+  <link rel="stylesheet" type="text/css" href="/static/css/attraction.css">  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  
+  <div id="common-container"></div>
+  <main class="l-main" id="main">   <!--使用iｄ選擇器來操作元素節點-->
+    <div class="l-main-container">
+      <div class="m-attraction-container1">
+        <div class="m-attraction-slider">
+          <img  id="img" class="m-slider-img" src="/static/image/placeholder.png"  alt="attraction-img"/> <!--圖src勿空值-->
+          <div class="m-slider-arrow">
+            <button id="left-arrow" class="m-arrow-icon">
+              <img  src="/static/image/left_arrow.png"  alt="left-arrow-icon"/>
+            </button>
+            <button id="right-arrow" class="m-arrow-icon">
+              <img  src="/static/image/right_arrow.png"  alt="right-arrow-icon"/>
+            </button>
+          </div>
+          <div id="circles-container" class="m-slider-circles">
+            <!--動態生成各圓圈
+            其他張<img class="m-slider-circle" src="/static/image/circle.png"  alt="slider-circle"/> 
+            目前張<img class="m-slider-selectedcircle" src="/static/image/selected_circle.png"  alt="selected-circle"/>
+            --> 
+          </div> 
+        </div>
+        <div class="m-attraction-booking">
+          <h3  id="name" class="m-booking-header"><!--動態取得資料值--></h3>
+          <div class="m-booking-text">
+            <span id="category"><!--動態取得資料值--></span>
+            <span>at</span>
+            <span id="mrt"><!--動態取得資料值--></span>
+          </div>
+          <form class="m-booking-form" action="#" method="post">
+            <h3 class="m-form-header">訂購導覽行程</h3>
+            <p class="m-form-subtitle">以此景點為中心的一日行程，帶您探索城市角落故事</p>
+            <p>
+              <label class="m-form-label">選擇日期:
+                <input id="date" type="date"  name="date" required>
+              </label>
+            </p>
+            <p class="m-form-item">
+              <label class="m-form-label">選擇時間:
+                <input id="morning" class="m-form-radio" type="radio"  name="time" value="morning" checked>
+                <label for="morning" class="m-booking-text">上半天</label>         
+                <input id="afternoon" class="m-form-radio" type="radio"  name="time" value="afternoon" >
+                <label for="afternoon" class="m-booking-text">下半天</label>
+              </label>
+            </p>
+            <p class="m-form-item">
+              <label class="m-form-label">導覽費用: 
+                <span id="charge" class="m-booking-text"><!--動態顯示--></span>
+              </label>
+            </p>  
+            <button class="m-form-button" type="submit" >開始預約行程</button>
+          </form>
+        </div>    
+      </div>        
+      <hr class="l-main-hr" />                                                                 
+      <!--直向的第2個整個橫塊-->         
+      <div class="m-attraction-container2">
+        <p id="description" class="m-attraction-text"><!--動態取得資料值--></p>
+        <div class="m-attraction-wrapper">
+          <p class="m-attraction-title">景點地址:</p>
+          <p id="address" class="m-attraction-text"><!--動態取得資料值--></p>	
+        </div>
+        <div class="m-attraction-wrapper">
+          <p class="m-attraction-title">交通方式:</p>
+          <p id="transport" class="m-attraction-text"><!--動態取得資料值--></p>	
+        </div>
+      </div>
+    </div>
+  </main>
+  <script type="text/javascript" src="/static/js/common.js"></script>
+  <script type="text/javascript" src="/static/js/attraction.js"></script>
 </body>
 </html>
