@@ -41,16 +41,6 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }  
-/*Figma Layout 寬、高 、內外邊距
-  (一)父、子元素間w、h僅參考 !寫死易RWD爆版、無法正常執行JS (x)各自寫死(o)有些寫死+有些搭配margin或padding 
-      1.(父)元素     寬:    max-width取代width -->RWD不跑版
-      2.子元素,尤flex item      
-                    寬、高度: 獨佔，  相對父元素width:100% -->RWD不破圖、截斷
-                             共分，  視情況寫死(常設margin、padding，相對不寫死)
-                    內外邊距: flex items 多為space-around或-between，除非明確指定個別邊距
-                    margin: 常__px auto             -->不寫死、彈性水平置中對齊+不貼齊離視窗左右底邊
-  (二)子元素top、left僅參考 ，(x)非「position」top、left (o)父元素Box的padding上下+左右___px 
-  表單元素: 含標題.按鈕.各欄位 的上下間距比例、 內容的水平對齊位置*/ 
   @media screen and (max-width: 1920px) {
 /* 全部套用 */
   html ,button ,input{    /* @@ <button> <input>指明才套用字型 */  
@@ -99,7 +89,7 @@ table {
     height: 100%;
     white-space:nowrap;
   }
-  .m-link-item1{
+  .m-link-item{
     max-width: 84px;
     box-sizing: border-box; 
     padding: 10px;
@@ -109,12 +99,12 @@ table {
     color: #666666;
     background-color: #FFFFFF;
   }
-  .m-link-item2 {                
+  .m-link-items {                
     display: flex;
     flex-direction: row;
     max-width: 91px;
   }
-  #bookingButton, #signinButton , #signupButton{  /*文字相關，包含間距、顏色相關，包含背景色 (x)設flex container會無效 (o)設在各item*/
+  #bookingButton, #signin-link , #signup-link, #signout-link{  /*文字相關，包含間距、顏色相關，包含背景色 (x)設flex container會無效 (o)設在各item*/
     font-weight: 500;
     font-size: 16px;
     line-height: 13.3px;
@@ -221,14 +211,16 @@ table {
     text-align:center;
     color: #FFFFFF;
   }
-  .m-memberForm-link{
+  .m-memberForm-auth,.m-memberForm-link{
     height: 22px;
     font-weight:500;
     font-size: 16px;
     line-height: 13.3px;
-    color:#666666;
     margin-top:10px;
     text-align: center;
+  }
+  .m-memberForm-link{
+    color:#666666;
   }
   /* footer部分 */
   .l-footer{

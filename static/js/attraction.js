@@ -24,15 +24,14 @@ const afternoonChoice = document.getElementById('afternoon');
 const charge = document.getElementById('charge');
 
 
-/*費用切換*/
+/*費用切換*/   
+//更新值顯示時機: (1)點擊不同核取方塊時 或 (2)初次載入頁面時
+morningChoice.addEventListener('change', updateCharge);
+afternoonChoice.addEventListener('change', updateCharge);
 function updateCharge() {
     charge.textContent = morningChoice.checked ? '新台幣 2000元' : '新台幣 2500元';
     charge.style.marginLeft = '3px';
 }
-//更新值顯示時機: (1)點擊不同核取方塊時 或 (2)初次載入頁面時
-morningChoice.addEventListener('change', updateCharge);
-afternoonChoice.addEventListener('change', updateCharge);
-
 
 /*處理景點各式資料*/
 //先統一接收資料庫所有資料
@@ -43,8 +42,8 @@ async function fetchAttractionData(attractionId) {
             throw new Error(`HTTP 狀態碼錯誤, status = ${response.status}`);
         }
         const jsonData = await response.json();
-        if (!jsonData) {    //表示id值null或undefined
-            throw new Error('無法從資料庫取得此錯誤id資料');
+        if (!jsonData|| !jsonData.data) {    //表示id值null或undefined
+            throw new Error('無法返回有效回應，資料庫查無此id資料。');
         }
         attraction = jsonData.data;
         //更新 連帶變化、渲染的函式
@@ -53,54 +52,53 @@ async function fetchAttractionData(attractionId) {
         updateCurrentCircle(0); 
         renderAttraction(attraction);  
     } catch (error) {
-        console.error('請求錯誤或渲染失敗等錯誤發生:', error.message); //error.message顯示是哪種拋出異常情形
+        console.error('請求接收失敗或渲染失敗等錯誤發生:', error.message); //error.message顯示是哪種拋出異常情形
         window.location.href = '/';  
     }
 }
 
 /*滑動顯示單圖*/
-//(一)渲染單圖，含點擊時滑動  +搭配 節流功能
-  const throttle = (callback, delay = 2000) => {
-    let shouldWait = false;
-    let waitingArgs;
+//(一)渲染單圖，含點擊時滑動  +搭配 節流功能(定時器寫法)
+//處理 點擊事件
+    //用節流函式包裝的事件 執行監聽器
+const throttle = (callback, delay = 2000) => {
+  let shouldWait = false;
+  let waitingArgs;
 
-    const timeoutFunc = () => {
-      if (waitingArgs == null) {
-        shouldWait = false;
-      } else {
-        callback(...waitingArgs);
-        waitingArgs = null;
-        setTimeout(timeoutFunc, delay);
-      }
-    };
-
-    return (...args) => {
-      if (shouldWait) {
-        waitingArgs = args;
-        return;
-      }
-      callback(...args);
-      shouldWait = true;
+  const timeoutFunc = () => {
+    if (waitingArgs == null) {
+      shouldWait = false;
+    } else {
+      callback(...waitingArgs);
+      waitingArgs = null;
       setTimeout(timeoutFunc, delay);
     }
   };
-  // 處理 點擊事件
-    //(往左操作: 遞減+考量首張時，例外更新值為尾張圖索引 )(往右:遞增，尾張時，例外更新值為首張索引)
-    // 呼叫更新值函式，務必傳入參數景點資料 +記得連帶更新當前圓點傳入的currentIndex   
-  const handleArrowClick = (direction) => {
-    currentIndex = direction === 'left'
-      ? (currentIndex > 0 ? currentIndex - 1 : attraction.images.length - 1)
-      : (currentIndex < attraction.images.length - 1 ? currentIndex + 1 : 0);
-    updateImage(attraction);
-    updateCurrentCircle(currentIndex);
-  };
-  // 用節流函數包裝的事件 執行監聽器
-  const throttledLeftArrowClick = throttle(() => handleArrowClick('left'), 2000);
-  const throttledRightArrowClick = throttle(() => handleArrowClick('right'), 2000);
 
-  leftArrow.addEventListener('click', throttledLeftArrowClick);
-  rightArrow.addEventListener('click', throttledRightArrowClick);
+  return (...args) => {
+    if (shouldWait) {
+      waitingArgs = args;
+      return;
+    }
+    callback(...args);
+    shouldWait = true;
+    setTimeout(timeoutFunc, delay);
+  }
+};
+//(往左操作: 遞減+考量首張時，例外更新值為尾張圖索引 )(往右:遞增，尾張時，例外更新值為首張索引)
+// 呼叫更新值函式，參數景點資料 +連帶更新當前圓點傳入currentIndex   
+const handleArrowClick = (direction) => {
+  currentIndex = direction === 'left'
+    ? (currentIndex > 0 ? currentIndex - 1 : attraction.images.length - 1)
+    : (currentIndex < attraction.images.length - 1 ? currentIndex + 1 : 0);
+  updateImage(attraction);
+  updateCurrentCircle(currentIndex);
+};
+const throttledLeftArrowClick = throttle(() => handleArrowClick('left'), 2000);
+const throttledRightArrowClick = throttle(() => handleArrowClick('right'), 2000);
 
+leftArrow.addEventListener('click', throttledLeftArrowClick);
+rightArrow.addEventListener('click', throttledRightArrowClick);
 
 function  updateImage(attraction){  
     currentImage.src = attraction.images[currentIndex];

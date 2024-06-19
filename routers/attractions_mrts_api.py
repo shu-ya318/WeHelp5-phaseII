@@ -1,14 +1,15 @@
+import os
+
 from fastapi import APIRouter, Query, HTTPException, status
 from fastapi.responses import JSONResponse
-from typing import Optional, List
 from pydantic import BaseModel
+from typing import Optional, List
 from mysql.connector import Error
 import mysql.connector.pooling
-import os
 
 
 # 先載入模組、替代app = FastAPI(  )
-router = APIRouter(tags=["Attraction_and_mrt"])
+router = APIRouter(tags=['Attraction_and_mrt'])
 
 
 #  定義 API 的請求、回應的資料結構，便於前端處理
@@ -25,10 +26,6 @@ class Attraction(BaseModel):
     images: List[str]
 
 
-class MRT(BaseModel):
-    data: List[str]
-
-
 class AttractionResponse(BaseModel):
     nextPage: Optional[int] = None
     data: List[Attraction]
@@ -36,6 +33,10 @@ class AttractionResponse(BaseModel):
 
 class AttractionByIdResponse(BaseModel):
     data: Attraction
+
+
+class MRT(BaseModel):
+    data: List[str]
 
 
 class ErrorResponse(BaseModel):
@@ -47,7 +48,7 @@ def create_pool():
     dbconfig = {
         "host": "localhost",
         "user": "root",
-        "password": os.getenv("DB_PASSWORD"),
+        "password": os.environ.get("DB_PASSWORD"),
         "database": "taipeiattractions"
     }
     connection_pool = mysql.connector.pooling.MySQLConnectionPool(
@@ -62,7 +63,7 @@ def get_db_connection(pool):
     return pool.get_connection()
 
 
-@router.get("/api/attractions", response_model=AttractionResponse, status_code=status.HTTP_200_OK)
+@router.get('/api/attractions', response_model=AttractionResponse, status_code=status.HTTP_200_OK)
 async def query_attractions(page: int = Query(0, ge=0), keyword: Optional[str] = None):   # 參數不寫match_mrt預設布林值，否則網址額外多輸入&match_mrt=True才能找到
     db_cursor = None
     connection = None
@@ -125,7 +126,7 @@ async def query_attractions(page: int = Query(0, ge=0), keyword: Optional[str] =
     return AttractionResponse(nextPage=next_page, data=attractions)
 
 
-@router.get("/api/attraction/{attractionId}", responses={200: {"model": AttractionByIdResponse}, 400: {"model": ErrorResponse}, 500: {"model": ErrorResponse}})
+@router.get('/api/attraction/{attractionId}', responses={200: {"model": AttractionByIdResponse}, 400: {"model": ErrorResponse}, 500: {"model": ErrorResponse}})
 async def get_attraction(attractionId: int):
     db_cursor = None
     connection = None
@@ -162,7 +163,7 @@ async def get_attraction(attractionId: int):
 
 
 # 需分組捷運站，再統計每站景點數，最後由多到少排序
-@router.get("/api/mrts", response_model=MRT, status_code=status.HTTP_200_OK)
+@router.get('/api/mrts', response_model=MRT, status_code=status.HTTP_200_OK)
 async def get_mrts():
     db_cursor = None
     connection = None
