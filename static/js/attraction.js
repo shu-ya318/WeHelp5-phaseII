@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
 const pathSegments = window.location.pathname.split('/');   //需先儲存URL特定/後的值 ;澄清:非 URL的query，出現在URL的?後
 const attractionId = pathSegments[pathSegments.length - 1];
 let attraction =[ ];  
-/* 選取唯一元素:ID選擇器 效率>CSS樣式選擇器*/ 
+/* 選取唯一元素*/ 
 //景點各式資料
 const attractionName = document.getElementById('name');
 const attractionCategory = document.getElementById('category');
@@ -18,20 +18,7 @@ const currentImage= document.getElementById('img');
 const leftArrow= document.getElementById('left-arrow');
 const rightArrow= document.getElementById('right-arrow');
 const circlesContainer = document.getElementById('circles-container');
-//表單
-const morningChoice = document.getElementById('morning');
-const afternoonChoice = document.getElementById('afternoon');
-const charge = document.getElementById('charge');
 
-
-/*費用切換*/   
-//更新值顯示時機: (1)點擊不同核取方塊時 或 (2)初次載入頁面時
-morningChoice.addEventListener('change', updateCharge);
-afternoonChoice.addEventListener('change', updateCharge);
-function updateCharge() {
-    charge.textContent = morningChoice.checked ? '新台幣 2000元' : '新台幣 2500元';
-    charge.style.marginLeft = '3px';
-}
 
 /*處理景點各式資料*/
 //先統一接收資料庫所有資料
@@ -51,6 +38,7 @@ async function fetchAttractionData(attractionId) {
         createCircles(attraction.images.length);
         updateCurrentCircle(0); 
         renderAttraction(attraction);  
+        setupBooking(attraction);
     } catch (error) {
         console.error('請求接收失敗或渲染失敗等錯誤發生:', error.message); //error.message顯示是哪種拋出異常情形
         window.location.href = '/';  
@@ -144,9 +132,74 @@ function renderAttraction(attraction){
     attractionAddress.textContent = attraction.address ;
     attractionTransport.textContent = attraction.transport ;
 }
-
-
 //首次頁面加載完成時 
-updateCharge();
 fetchAttractionData(attractionId);  
+
+
+//提交預定表單
+function setupBooking(attraction){
+  const BookingElements = getBookingElements(); 
+  updatePrice(BookingElements);
+  BookingElements.morningChoice.addEventListener('change', () => updatePrice(BookingElements));//避逕寫解構參數
+  BookingElements.afternoonChoice.addEventListener('change', () => updatePrice(BookingElements));
+  BookingElements.bookingButton.addEventListener('click', (event) => submitBooking(event,BookingElements,attraction));
+}
+function updatePrice(BookingElements){
+  BookingElements.charge.style.marginLeft = '3px';
+  BookingElements.charge.textContent = BookingElements.morningChoice.checked ? '新台幣 2000元' : '新台幣 2500元';
+}
+
+
+async function submitBooking(event,BookingElements,attraction){
+    const  signInElements = await getModalElements(); //使用共通檔指定函式的值+呼叫另指定函式->(o)async +新變數儲存await呼叫值，再呼叫另指定函寫新參數(x)未等待,新變數無法接收值
+    event.preventDefault();
+    if (!storedToken) {
+      showModalSignin(signInElements);
+      return;
+    }
+    let selectedDate =  BookingElements.date.value;
+    let time = BookingElements.morningChoice.checked ? 'morning' : 'afternoon';
+    let price = BookingElements.morningChoice.checked ? 2000 : 2500;
+    if (!selectedDate){
+      alert("請選擇未來近2個月內預定日期!");
+      return;
+    }
+
+    const requestBody = {
+      attractionId: attraction.id,
+      date:BookingElements.date.value,
+      time:time,
+      price: price
+    };
+    fetch('/api/booking', 
+        { method: 'POST', 
+          headers: { 
+            'Content-Type': 'application/json' ,
+            'Authorization': `Bearer ${storedToken}` 
+          },
+          body: JSON.stringify(requestBody),
+        })
+    .then(response => response.json().then(data => ({ status: response.status, body: data })))
+    .then(({ status, body }) => {  
+      if (status === 200) {
+        window.location.href = "/booking";
+      } else if (status === 400) {
+        throw new Error('預定日期只能為未來2個月內!');
+      } else {
+        throw new Error('預定發生未知錯誤，請稍後再試!');
+      }
+      })
+    .catch(error => {
+      alert(error.message);
+    });
+}
+function getBookingElements() {
+  return {
+  date :  document.getElementById('date'),
+  morningChoice : document.getElementById('morning'),
+  afternoonChoice : document.getElementById('afternoon'),
+  charge : document.getElementById('charge'),
+  bookingButton : document.getElementById('booking-button')
+  };
+}
 });

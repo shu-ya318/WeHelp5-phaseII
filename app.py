@@ -2,8 +2,7 @@ from dotenv import load_dotenv  # 它檔僅需引入os
 from fastapi import *
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
-from routers import attractions_mrts_router, user_router
-
+from routers import attractions_mrts_router, user_router, booking_orders_router
 
 # 設環境變量，處理env檔
 load_dotenv('../.env')
@@ -31,3 +30,4 @@ async def thankyou(request: Request):
 # 連接 子資料夾的路由(參數為_init_.py把檔名轉換過的router物件名)
 app.include_router(attractions_mrts_router)
 app.include_router(user_router)
+app.include_router(booking_orders_router)

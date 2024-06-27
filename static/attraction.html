@@ -12,7 +12,7 @@
 </head>
 <body>
   <div id="common-container"></div>
-  <main class="l-main" id="main">   <!--使用iｄ選擇器來操作元素節點-->
+  <main class="l-main" id="main">   <!--iｄ選擇器操作元素節點-->
     <div class="l-main-container">
       <div class="m-attraction-container1">
         <div class="m-attraction-slider">
@@ -26,10 +26,8 @@
             </button>
           </div>
           <div id="circles-container" class="m-slider-circles">
-            <!--動態生成各圓圈
-            其他張<img class="m-slider-circle" src="/static/image/circle.png"  alt="slider-circle"/> 
-            目前張<img class="m-slider-selectedcircle" src="/static/image/selected_circle.png"  alt="selected-circle"/>
-            --> 
+            <!--動態生成圓圈 他張<img class="m-slider-circle" src="/static/image/circle.png"  alt="slider-circle"/> 
+                            目前張<img class="m-slider-selectedcircle" src="/static/image/selected_circle.png"  alt="selected-circle"/>--> 
           </div> 
         </div>
         <div class="m-attraction-booking">
@@ -44,7 +42,7 @@
             <p class="m-form-subtitle">以此景點為中心的一日行程，帶您探索城市角落故事</p>
             <p>
               <label class="m-form-label">選擇日期:
-                <input id="date" type="date"  name="date" required>
+                <input id="date" type="date"  name="date">
               </label>
             </p>
             <p class="m-form-item">
@@ -60,7 +58,7 @@
                 <span id="charge" class="m-booking-text"><!--動態顯示--></span>
               </label>
             </p>  
-            <button class="m-form-button" type="submit" >開始預約行程</button>
+            <button id="booking-button" class="m-form-button" type="button" >開始預約行程</button>
           </form>
         </div>    
       </div>        
@@ -80,6 +78,6 @@
     </div>
   </main>
   <script type="text/javascript" src="/static/js/common.js"></script>
-  <script type="text/javascript" src="/static/js/attraction.js"></script>
+  <script type="text/javascript" src="/static/js/attraction.js" defer></script>
 </body>
 </html>

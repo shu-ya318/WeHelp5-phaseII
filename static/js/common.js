@@ -20,7 +20,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const footerElement = doc.querySelector('.l-footer');  // 取得文檔來源: (o)僅可用DOMParser 解析的 HTML 檔 (x)document目前頁面主檔 //避免和其他頁面檔案有 ID 衝突
         if (mainElement && footerElement) {   
           mainElement.parentNode.insertBefore(footerElement, mainElement.nextSibling);
-          dispatchFooterReady();  // 呼叫 自定義事件
+          //自定義事件，序:DOM建立後立即定義
+          document.dispatchEvent(new CustomEvent('footerReady'));
         } else {
           console.error('<footer> 未正確插入指定位置');
         }
@@ -30,9 +31,6 @@ document.addEventListener('DOMContentLoaded', function() {
         console.error('未正確加載common.html:', error);
       });
   });
-  function dispatchFooterReady() {
-    document.dispatchEvent(new CustomEvent('footerReady'));
-  }
   /*會員驗證->封裝所有元素DOM+關聯函式放父函式，頁面載完立即執行初始化*/
   function setupUserAuth() {
   const modalElements = getModalElements(); 
@@ -45,9 +43,11 @@ document.addEventListener('DOMContentLoaded', function() {
     button.addEventListener('click', () => closeModals(modalElements));
   });
   //再寫表單提交功能 (非用預設提交,不寫submit事件)
-  modalElements.signinButton.addEventListener('click', (event) => handleSignin(event,modalElements));
   modalElements.signupButton.addEventListener('click', (event) => handleSignup(event,modalElements));
-  //登出(撰序:(o)父函式內，僅建立1次 (x)多次呼叫的確認token函式內)
+  modalElements.signinButton.addEventListener('click', (event) => handleSignin(event,modalElements));
+  //預定
+  modalElements.bookingLink.addEventListener('click', () => handleBooking(modalElements));
+  //登出
   if (modalElements.signoutLink) {
     modalElements.signoutLink.addEventListener('click', () => {
       localStorage.removeItem('token'); 
@@ -57,6 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
   //確認憑證狀態
   checkUserToken(modalElements); 
 }
+
 //靈活處理封裝物件的DOM
 function getModalElements() {
   return {
@@ -66,6 +67,7 @@ function getModalElements() {
     signupLink: document.getElementById('signup-link'),
     signinLink: document.getElementById('signin-link'),
     signoutLink: document.getElementById('signout-link'),
+    bookingLink: document.getElementById('booking-link'),
     //彈出表單+背景
     modalBackdrop: document.getElementById('modalBackdrop'),
     modalSignup: document.getElementById('modalSignup'),
@@ -106,14 +108,14 @@ function closeModals(modalElements) {
 //表單提交call API
 function handleSignup(event,modalElements) {
   event.preventDefault();
-  const { signupName, signupEmail, signupPassword } = modalElements;
+  const { signupName, signupEmail, signupPassword, signupAuth } = modalElements;
   const name = signupName.value.trim();
   const email = signupEmail.value.trim();
   const password = signupPassword.value.trim();
   if (!name || !email || !password) {
-    modalElements.signupAuth.style.display = 'block';
-    modalElements.signupAuth.style.color = 'red';
-    modalElements.signupAuth.textContent = '欄位不可空白。';
+    signupAuth.style.display = 'block';
+    signupAuth.style.color = 'red';
+    signupAuth.textContent = '欄位不可空白。';
     return;
   }
 
@@ -131,9 +133,9 @@ function handleSignup(event,modalElements) {
   .then(response => response.json().then(data => ({ status: response.status, body: data })))
   .then(({ status, body }) => {  
     if (status === 200) {
-      modalElements.signupAuth.style.display = 'block';
-      modalElements.signupAuth.style.color = 'green';
-      modalElements.signupAuth.textContent = '註冊成功，請登入系統';
+      signupAuth.style.display = 'block';
+      signupAuth.style.color = 'green';
+      signupAuth.textContent = '註冊成功，請登入系統';
       //清空欄位: 字串->基本型別傳值特性，(x)賦值新變數=" "  
       signupName.value = "";
       signupEmail.value = "";
@@ -145,20 +147,20 @@ function handleSignup(event,modalElements) {
     }
   })
   .catch(error => {
-    modalElements.signupAuth.style.display = 'block';
-    modalElements.signupAuth.style.color = 'red';
-    modalElements.signupAuth.textContent = error.message;
+    signupAuth.style.display = 'block';
+    signupAuth.style.color = 'red';
+    signupAuth.textContent = error.message;
   });
 }
 function handleSignin(event,modalElements) {
   event.preventDefault();
-  const { signinEmail, signinPassword } = modalElements;
+  const { signinEmail, signinPassword, signinAuth} = modalElements;
   const email = signinEmail.value.trim();
   const password = signinPassword.value.trim();
   if (!email || !password) {
-    modalElements.signinAuth.style.display = 'block';
-    modalElements.signinAuth.style.color = 'red';
-    modalElements.signinAuth.textContent = '欄位不可空白。';
+    signinAuth.style.display = 'block';
+    signinAuth.style.color = 'red';
+    signinAuth.textContent = '欄位不可空白。';
     return;
   }
 
@@ -184,16 +186,25 @@ function handleSignin(event,modalElements) {
     }
   })
   .catch(error => {
-    modalElements.signinAuth.style.display='block';
-    modalElements.signinAuth.style.color = 'red';
-    modalElements.signinAuth.textContent = error.message;
+    signinAuth.style.display='block';
+    signinAuth.style.color = 'red';
+    signinAuth.textContent = error.message;
   });
+}
+//預定行程
+function handleBooking(modalElements){
+  if (!storedToken) {                     //用憑證判斷,非前端登出系統連結UI
+    showModalSignin(modalElements);
+    return;
+  }
+  window.location.href = "/booking";
 }
 //確認憑證狀態by是否取得當前用戶資料 (定義1次，供初始化+特定操作後ex signin呼叫)
 //即時權限驗證:取得當前登入用戶資訊函式->作用:空值與否，驗證訪問權限有無 (目前未對資料操作渲染)
 function checkUserToken(modalElements) { 
-  // 每次都先重取值，確保必最新 
-  storedToken = localStorage.getItem('token');
+  storedToken = localStorage.getItem('token');   // 每次都先重取值，確保必最新 
+  const pathSegment = window.location.pathname.split('/');
+  const authorizedPage = pathSegment[pathSegment.length - 1];
   //開始請求
   fetch('/api/user/auth', 
     { method: 'GET', 
@@ -203,17 +214,26 @@ function checkUserToken(modalElements) {
       }
     })
   .then(response => {
-    /* QQ 拋出異常錯誤就不執行下個.then
-    if (!response.ok) {throw new Error('無效token,無法取得當前用戶資訊');} */
     return response.json(); 
   })
-  .then(data => {
-    if (!data||!storedToken){  // 後端沒正確token (ex未登入、逾期失效) 或 本地未儲存token (ex登出、清空)
+  .then(JSONdata => {
+    if (!JSONdata||!storedToken){  // 後端檢查token無效、逾期失效 或 前端本地token未儲存 (ex登出、清空)
       modalElements.showSignout.style.display = 'none';
       modalElements.showAuth.style.display = 'flex';
+      if(authorizedPage === "booking"){ 
+        window.location.href = "/";
+      }
     }else {
     modalElements.showAuth.style.display = 'none';
     modalElements.showSignout.style.display = 'flex';
+      if(authorizedPage === "booking"){ 
+        const UserName = document.getElementById('username-trip');
+        const ordererName = document.getElementById('name');
+        const ordererEmail = document.getElementById('email');
+        UserName.textContent =`您好，${JSONdata.data.name}，待預訂的行程如下：`;
+        ordererName.value =  JSONdata.data.name;
+        ordererEmail.value =  JSONdata.data.email ;
+      }
     }
   })
   .catch(error => console.error('處理接收token值發生錯誤', error));
