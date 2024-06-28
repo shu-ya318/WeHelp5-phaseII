@@ -12,9 +12,71 @@
 </head>
 <body>
   <div id="common-container"></div>
-  <main class="l-main">
+  <main class="l-main" id="main">
     <div class="l-main-container">
-
+      <h3 id="username-trip" class="m-orderHeader"><!--動態取值--></h3>
+      <p id="deleted-orderForm" class="m-deleted-orderForm">目前沒有任何待預訂的行程</p>
+      <form id="orderForm" class="m-orderForm">
+        <div class="m-container-booking">
+          <img id="img" class="m-orderForm-img" src="/static/image/placeholder.png" alt="attraction-img"/>
+          <div class="m-orderForm-booking">
+            <div class="m-orderForm-bookingWrapper">
+              <h3 id="attraction-name" class="m-orderForm-bookingHeader"><!--動態取值--></h3>
+              <button class="m-orderForm-delete">
+                <img id="delete"  src="/static/image/delete.png" alt="delete-icon"/>
+              </button>
+            </div>
+            <div class="m-orderForm-wrapper" >
+              <strong class="m-label-booking">日期:</strong>
+              <span id="date" class="m-orderForm-text"><!--動態取值--></span>
+            </div>
+            <div class="m-orderForm-wrapper">
+              <strong class="m-label-booking">時間:</strong>
+              <span id="time"  class="m-orderForm-text"><!--動態取值--></span>
+            </div>
+            <div class="m-orderForm-wrapper">
+              <strong class="m-label-booking">費用:</strong>
+              <span id="price"  class="m-orderForm-text"><!--動態取值--></span>
+            </div>
+            <div class="m-orderForm-wrapper">
+              <strong class="m-label-booking">地點:</strong>
+              <span id="address"  class="m-orderForm-text"><!--動態取值--></span>
+            </div>
+          </div>
+        </div>
+        <hr class="l-main-hr" />  
+        <div class="m-orderForm-container">
+          <h3 class="m-orderForm-title">您的聯絡資訊</h3>
+          <label class="m-orderForm-label">聯絡姓名:
+            <input id="name" class="m-orderForm-input" type="text"  name="name" required/>
+          </label>
+          <label class="m-orderForm-label">聯絡信箱:
+            <input id="email" class="m-orderForm-input" type="email"  name="email" required/>
+          </label>
+          <label class="m-orderForm-label">手機號碼:
+            <input id="phone" class="m-orderForm-input" type="tel"  name="phone" required/>
+          </label>
+          <p class="m-text-notice">請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</p>
+        </div>
+        <hr class="l-main-hr" />
+        <div class="m-orderForm-container">
+          <h3 class="m-orderForm-title">信用卡付款資訊</h3>
+          <label class="m-orderForm-label">卡片號碼:
+            <input id="cardNumber" class="m-orderForm-input" type="text"  name="cardNumber" placeholder="**** **** **** ****"  maxlength="19" required>
+          </label>
+          <label class="m-orderForm-label">過期時間:
+            <input id="expirationDate" class="m-orderForm-input" type="text"  name="expirationDate" placeholder="MM / YY" maxlength="5" required>
+          </label>
+          <label class="m-orderForm-label">驗證密碼:
+            <input id="cvv" class="m-orderForm-input" type="password"  name="cvv" placeholder="CVV" maxlength="3"  required>
+          </label>
+        </div>
+        <hr class="l-main-hr" />
+        <div class="m-container-order">
+          <p id="total-price" class="m-text-amount"><!--動態取值--></p>
+          <button id="order-button"  class="m-orderForm-button" type="button" >確認訂購並付款</button>
+        </div>
+      </form>
     </div>
   </main>
   <script type="text/javascript" src="/static/js/common.js"></script>

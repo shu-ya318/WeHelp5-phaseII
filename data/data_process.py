@@ -2,16 +2,13 @@ import json
 import os
 import mysql.connector
 
-# 實務常用的連接資料庫寫法(Connection Pool)
-# 設定大小約小型負載
-
 
 def create_pool():
     dbconfig = {
         "host": "localhost",
         "user": "root",
-        "password": os.getenv("DB_PASSWORD"),
-        "database": "taipeiattractions"
+        "password": os.environ.get("DB_PASSWORD"),
+        "database": "taipei_trip"
     }
     pool = mysql.connector.pooling.MySQLConnectionPool(
         pool_name="mypool",
@@ -24,11 +21,17 @@ def create_pool():
 def load_data_to_database(connection_pool):
     cnx = connection_pool.get_connection()
     cursor = cnx.cursor()
+
+    # 避每次執行app.py重複操作:前提-資料尚未存在
+    cursor.execute("SELECT COUNT(*) FROM attractions")
+    if (cursor.fetchone())[0] > 0:
+        # print("資料已存在，不執行寫入資料值操作")
+        return
+
     with open("taipei-attractions.json", "r", encoding="utf-8") as file:
         data = json.load(file)
-    attractions = data["result"]["results"]
+        attractions = data["result"]["results"]
     for attraction in attractions:
-        # 先 統一整理取得json格式資料值(注意mySQL欄位名調整，比對json資料、API規格的屬性名)
         name = attraction["name"]
         description = attraction["description"]
         address = attraction["address"]
@@ -38,12 +41,28 @@ def load_data_to_database(connection_pool):
         category = attraction["CAT"]
         transport = attraction["direction"]
         image_urls = attraction["file"].split("https://")
-        filtered_images = [f"https://{url}" for url in image_urls if url and (url.lower().endswith("jpg") or url.lower().endswith("png"))]
+        filtered_images = ([
+            f"https://{url}" for url in image_urls
+            if url and (url.lower().endswith("jpg") or url.lower().endswith("png"))
+        ])
         images = ",".join(filtered_images)
-        # 再 插入資料進資料庫 (把name當唯一索引值比對，若重複則僅更新name以外欄位的資料值)
-        sql = """ INSERT INTO attractions (name, description, address, lat, lng, mrt, category, transport, images) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE description = VALUES(description), address = VALUES(address), lat = VALUES(lat), lng = VALUES(lng), mrt = VALUES(mrt), category = VALUES(category), transport = VALUES(transport), images = VALUES(images); """
+
+        sql = """
+        INSERT INTO attractions
+            (name, description, address, lat, lng,
+             mrt, category, transport, images)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+        ON DUPLICATE KEY UPDATE description = VALUES(description),
+        address = VALUES(address), lat = VALUES(lat),
+        lng = VALUES(lng), mrt = VALUES(mrt),
+        category = VALUES(category), transport = VALUES(transport),
+        images = VALUES(images);
+        """
         try:
-            cursor.execute(sql, (name, description, address, lat, lng, mrt, category, transport, images))
+            cursor.execute(
+                sql, (name, description, address, lat, lng, mrt,
+                      category, transport, images)
+            )
             cnx.commit()
             print(f"Inserted: {name}")
         except mysql.connector.Error as err:
@@ -54,6 +73,7 @@ def load_data_to_database(connection_pool):
     cnx.close()
 
 
+# 可獨立測試，不作為模組引入
 if __name__ == "__main__":
     db_pool = create_pool()
     load_data_to_database(db_pool)
