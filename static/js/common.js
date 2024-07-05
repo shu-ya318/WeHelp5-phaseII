@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   //確認憑證狀態
-  checkUserToken(modalElements); 
+  checkTokenAndHandle(modalElements); 
 }
 
 //靈活處理封裝物件的DOM
@@ -177,7 +177,7 @@ function handleSignin(event,modalElements) {
   .then(({ status, body }) => {
     if (status === 200) {
       localStorage.setItem('token', body.token);
-      checkUserToken(modalElements); //登入成功即更新權限，以免舊UI誤認未登入
+      checkTokenAndHandle(modalElements); //登入成功即更新權限，以免舊UI誤認未登入
       location.reload(); 
     } else if (status === 400) {
       throw new Error('電子郵件或密碼錯誤');
@@ -201,7 +201,7 @@ function handleBooking(modalElements){
 }
 //確認憑證狀態by是否取得當前用戶資料 (定義1次，供初始化+特定操作後ex signin呼叫)
 //即時權限驗證:取得當前登入用戶資訊函式->作用:空值與否，驗證訪問權限有無 (目前未對資料操作渲染)
-function checkUserToken(modalElements) { 
+function checkTokenAndHandle(modalElements) { 
   storedToken = localStorage.getItem('token');   // 每次都先重取值，確保必最新 
   const pathSegment = window.location.pathname.split('/');
   const authorizedPage = pathSegment[pathSegment.length - 1];
@@ -220,16 +220,16 @@ function checkUserToken(modalElements) {
     if (!JSONdata||!storedToken){  // 後端檢查token無效、逾期失效 或 前端本地token未儲存 (ex登出、清空)
       modalElements.showSignout.style.display = 'none';
       modalElements.showAuth.style.display = 'flex';
-      if(authorizedPage === "booking"){ 
+      if(authorizedPage === "booking" || authorizedPage === "thankyou"){   //已含子頁
         window.location.href = "/";
       }
     }else {
     modalElements.showAuth.style.display = 'none';
     modalElements.showSignout.style.display = 'flex';
+    const ordererName = document.getElementById('name');
+    const ordererEmail = document.getElementById('email');
       if(authorizedPage === "booking"){ 
         const UserName = document.getElementById('username-trip');
-        const ordererName = document.getElementById('name');
-        const ordererEmail = document.getElementById('email');
         UserName.textContent =`您好，${JSONdata.data.name}，待預訂的行程如下：`;
         ordererName.value =  JSONdata.data.name;
         ordererEmail.value =  JSONdata.data.email ;

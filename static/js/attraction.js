@@ -195,11 +195,11 @@ async function submitBooking(event,BookingElements,attraction){
 }
 function getBookingElements() {
   return {
-  date :  document.getElementById('date'),
-  morningChoice : document.getElementById('morning'),
-  afternoonChoice : document.getElementById('afternoon'),
-  charge : document.getElementById('charge'),
-  bookingButton : document.getElementById('booking-button')
+    date :  document.getElementById('date'),
+    morningChoice : document.getElementById('morning'),
+    afternoonChoice : document.getElementById('afternoon'),
+    charge : document.getElementById('charge'),
+    bookingButton : document.getElementById('booking-button')
   };
 }
 });

@@ -117,7 +117,10 @@
         font-weight: 700;  
         height: 24px;  
     }
-    /*輸入*/
+    /*輸入*/  /*iframe屬性需用js動態改變*/
+    .tpfield{     /*inline-block:需行內元素才和它元素同行+但又讓inline禁用屬性可用 ex width*/
+        display: inline-block;
+    }
     .m-orderForm-title{
         width: 100%;
         height: 24px;
@@ -175,7 +178,6 @@
 @media screen and (max-width: 1199px) {
     .l-main-container{
         width: 100vw; 
-        height:auto;
         justify-content: space-around; 
     }
     .m-orderHeader,.m-deleted-orderForm{

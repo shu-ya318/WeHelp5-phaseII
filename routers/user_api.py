@@ -129,7 +129,7 @@ async def signup(request: SignupRequest):
     connection = None
     try:
         connection = get_db_connection()
-        db_cursor = connection.cursor()
+        db_cursor = connection.cursor(dictionary=True)
         db_cursor.execute(
             "SELECT email FROM users WHERE email = %s", (request.email,)
         )
@@ -176,16 +176,16 @@ async def signin(signin_request: SigninRequest):
     connection = None
     try:
         connection = get_db_connection()
-        db_cursor = connection.cursor()
+        db_cursor = connection.cursor(dictionary=True)
         db_cursor.execute(
             "SELECT id, name, password FROM users WHERE email = %s",
             (signin_request.email,)
         )
         user_record = db_cursor.fetchone()
 
-        # 形式有此email用戶 且 實質 hashed密碼均對比符合 #索引來自查詢結果，非表格原始欄位順序
-        if user_record and password_context.verify(signin_request.password, user_record[2]):
-            user_id, user_name = user_record[0], user_record[1]
+        # 形式有此email用戶 且 實質 hashed密碼均對比符合 # (索引來自查詢結果，非表格原始欄位順序)
+        if user_record and password_context.verify(signin_request.password, user_record["password"]):
+            user_id, user_name = user_record["id"], user_record["name"]
             encoded_token = create_access_token(
                 user_id=user_id,
                 email=signin_request.email,
@@ -241,7 +241,7 @@ async def get_user_info(token: Annotated[str, Depends(oauth2_scheme)]):
         connection = None
         try:
             connection = get_db_connection()
-            db_cursor = connection.cursor()
+            db_cursor = connection.cursor(dictionary=True)
 
             db_cursor.execute(
                 "SELECT id, name, email FROM users WHERE email = %s", (email,)
@@ -254,9 +254,9 @@ async def get_user_info(token: Annotated[str, Depends(oauth2_scheme)]):
                 )
 
             user_data = SignedInUser(
-                id=user_record[0],
-                name=user_record[1],
-                email=user_record[2]
+                id=user_record["id"],
+                name=user_record["name"],
+                email=user_record["email"]
             )
 
             response_data = SignedInUserResponse(data=user_data)
