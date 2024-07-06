@@ -62,13 +62,13 @@
         <div class="m-orderForm-container">
           <h3 class="m-orderForm-title">信用卡付款資訊</h3>
           <label class="m-orderForm-label">卡片號碼:
-            <input id="cardNumber" class="m-orderForm-input" type="text"  name="cardNumber" placeholder="**** **** **** ****"  maxlength="19" required>
+            <div class="tpfield m-orderForm-input" id="card-number" ></div>
           </label>
           <label class="m-orderForm-label">過期時間:
-            <input id="expirationDate" class="m-orderForm-input" type="text"  name="expirationDate" placeholder="MM / YY" maxlength="5" required>
+            <div class="tpfield m-orderForm-input" id="card-expiration-date" ></div>
           </label>
           <label class="m-orderForm-label">驗證密碼:
-            <input id="cvv" class="m-orderForm-input" type="password"  name="cvv" placeholder="CVV" maxlength="3"  required>
+            <div class="tpfield m-orderForm-input" id="card-ccv" ></div>
           </label>
         </div>
         <hr class="l-main-hr" />
@@ -80,6 +80,7 @@
     </div>
   </main>
   <script type="text/javascript" src="/static/js/common.js"></script>
+  <script src="https://js.tappaysdk.com/sdk/tpdirect/v5.14.0"></script>
   <script type="text/javascript" src="/static/js/booking.js"></script>
 </body>
 </html>

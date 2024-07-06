@@ -4,12 +4,36 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Thank You</title>
-  
+  <link rel="stylesheet" type="text/css"  href="/static/css/common.css">
+  <!--可能+額外檔--><link rel="stylesheet" type="text/css" href="/static/css/thankyou.css">  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  
+  <div id="common-container"></div>
+  <main class="l-main" id="main">
+    <div class="l-main-container">
+      <div class="m-orderNumber-container">
+        <div id="current-order-number" class="m-order-number"><!--接收取值--></div>
+        <p class="m-order-text">請留意email通知，或到會員中心查詢歷史訂單</p>
+      </div>
+      <hr class="l-main-hr">
+      <div class="m-orderDetails-container">
+        <h3 class="m-orderDetails-header">感謝您的訂購，本次訂單詳細資訊如下:</h3>
+          <!--均為接收取值-->
+          <p id="contact-person" class="m-orderDetails-text"></p>
+          <p id="contact-email" class="m-orderDetails-text"></p>
+          <p id="contact-phone" class="m-orderDetails-text"></p>
+          <p id="booking-attraction" class="m-orderDetails-text"></p>
+          <p id="booking-time" class="m-orderDetails-text"></p>
+          <p id="booking-price" class="m-orderDetails-text"></p>
+          <p id="payment-status" class="m-orderDetails-text"></p>
+      </div> 
+      <button id="redirect-button"  class="m-redirect-button" type="button">返回首頁</button> 
+    </div>
+  </main>
+  <script type="text/javascript" src="/static/js/common.js"></script>
+  <script type="text/javascript" src="/static/js/thankyou.js"></script>
 </body>
 </html>

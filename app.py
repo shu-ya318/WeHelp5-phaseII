@@ -4,6 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from routers import attractions_mrts_router, user_router, booking_orders_router
 
+
 # 設環境變量，處理env檔
 load_dotenv('../.env')
 
