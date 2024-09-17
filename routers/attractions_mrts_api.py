@@ -251,8 +251,3 @@ async def get_mrts():
             db_cursor.close()
         if connection:
             connection.close()
-
-# 開發階段用，生產環境不寫uvicorn.run
-# if __name__ == "__main__":
-#   import uvicorn
-#   uvicorn.run(router, host="127.0.0.1", port=8000)
