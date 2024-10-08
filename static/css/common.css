@@ -1,17 +1,85 @@
 /* 務必css reset (用meyerweb) */
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
   margin: 0;
   padding: 0;
   border: 0;
@@ -19,105 +87,126 @@ time, mark, audio, video {
   font: inherit;
   vertical-align: baseline;
 }
-article, aside, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section {
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
   display: block;
 }
 body {
   line-height: 1;
 }
-ol, ul {
+ol,
+ul {
   list-style: none;
 }
-blockquote, q {
+blockquote,
+q {
   quotes: none;
 }
-blockquote:before, blockquote:after,
-q:before, q:after {
-  content: '';
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
   content: none;
 }
 table {
   border-collapse: collapse;
   border-spacing: 0;
-}  
-  @media screen and (max-width: 1920px) {
-/* 全部套用 */
-  html ,button ,input{    /* @@ <button> <input>指明才套用字型 */  
-    font-family: 'Noto Sans TC', sans-serif; 
+}
+@media screen and (max-width: 1920px) {
+  html,
+  button,
+  input {
+    /* <button> <input>指明才套用字型 */
+    font-family: "Noto Sans TC", sans-serif;
   }
-  img{
+  img {
     max-width: 100%;
   }
-  button,li{
-    border: none;       /* 消弭預設黑色邊框 */
+  button,
+  li {
+    border: none; /* 消弭預設黑色邊框 */
     cursor: pointer;
   }
-/* nav部分 */
+  /* nav部分 */
   .l-nav {
-    position: fixed;    /*恆固定: 定位+權重*/  
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    z-index: 1000;      /* (?)權重比模態框低*/  
+    z-index: 1000;
     box-sizing: border-box;
-    width: 100vw;  
+    width: 100vw;
     height: 54px;
-    border: 1px solid #E8E8E8;
-    background-color: #FFFFFF;
+    border: 1px solid #e8e8e8;
+    background-color: #ffffff;
   }
   .l-nav-container {
     display: flex;
     justify-content: space-between;
     max-width: 1200px;
-    width: 100%; 
-    margin: 10px auto;  
+    width: 100%;
+    margin: 10px auto;
   }
   .m-logo-title {
     max-width: 150px;
     height: 100%;
     font-weight: 700;
     font-size: 30px;
-    text-decoration: none; 
+    text-decoration: none;
     color: #448899;
-    white-space:nowrap;
+    white-space: nowrap;
   }
   .m-nav-links {
     display: flex;
     justify-content: space-between;
     max-width: 175px;
     height: 100%;
-    white-space:nowrap;
+    white-space: nowrap;
   }
-  .m-link-item{
+  .m-link-item {
     max-width: 84px;
-    box-sizing: border-box; 
+    box-sizing: border-box;
     padding: 10px;
     font-weight: 500;
     font-size: 16px;
     line-height: 13.3px;
     color: #666666;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
   }
-  .m-link-items {                
+  .m-link-items {
     display: flex;
     flex-direction: row;
     max-width: 91px;
   }
-  #bookingButton, #booking-link,#signin-link , #signup-link, #signout-link{  /*文字相關，包含間距、顏色相關，包含背景色 (x)設flex container會無效 (o)設在各item*/
+  #bookingButton,
+  #booking-link,
+  #signin-link,
+  #signup-link,
+  #signout-link {
+    /*  文字相關，包含間距、顏色相關，包含背景色 (x)設flex container會無效 (o)設在各item*/
     font-weight: 500;
     font-size: 16px;
     line-height: 13.3px;
-    white-space: nowrap;          /* flex container設flex-direction: row (讓item同橫列)，仍+設定文字不換行(否則單item內部字垂直往下)*/  
-    padding: 0px;                  
+    white-space: nowrap; /* flex container設flex-direction: row (讓item同橫列)，仍+設定文字不換行(否則單item內部字垂直往下)*/
+    padding: 0px;
     color: #666666;
-    background-color: #FFFFFF;
-    white-space:nowrap;
+    background-color: #ffffff;
+    white-space: nowrap;
   }
-  /*背景、模態框&表單*/  
+  /*  背景、模態框&表單*/
   .l-backdrop {
     position: fixed;
-    top: 0;           /*定位: 全設0*/  
+    top: 0;
     left: 0;
     right: 0;
     bottom: 0;
@@ -127,155 +216,170 @@ table {
     z-index: 1005;
     display: none;
   }
-  .l-modal-signin ,.l-modal-signup {
-    position: fixed; 
+  .l-modal-signin,
+  .l-modal-signup {
+    position: fixed;
     top: 80px;
     left: 0;
     right: 0;
-    margin: auto;    /*跳出模態框 水平置中:margin: auto;+額外設left、right:0;*/  
-    width: 340px;  
-    z-index: 1010; 
-    border-radius:6px;
-    box-shadow: 0  4px 60px 0px  #AAAAAA;  /*X Y blur spread均必寫*/
-    flex-direction: column;   /*預設不寫display: flex、但須寫flex方向，切換時才能被套用*/  
+    margin: auto; /*  跳出模態框 水平置中:margin: auto;+額外設left、right:0;*/
+    width: 340px;
+    z-index: 1010;
+    border-radius: 6px;
+    box-shadow: 0 4px 60px 0px #aaaaaa; /*X Y blur spread均必寫*/
+    flex-direction: column; /*  預設不寫display: flex、但須寫flex方向，切換時才能被套用*/
     display: none;
   }
-  .l-modal-signin{
-    height:275px;
+  .l-modal-signin {
+    height: 320px;
   }
-  .l-modal-signup{
-    height:332px;
+  .l-modal-signup {
+    height: 400px;
   }
-  .m-memberForm-bar{
-    background: linear-gradient(270deg, #337788 0%, #66AABB 100%);
+  .m-memberForm-bar {
+    background: linear-gradient(270deg, #337788 0%, #66aabb 100%);
     width: 100%;
     height: 10px;
   }
-  .m-memberForm-headerAndClose{  /* 標題+x鈕同flex container，因x鈕若改定位->水平位置難自適應*/
+  .m-memberForm-headerAndClose {
+    /* 標題+x鈕同flex container，因x鈕若改定位->水平位置難自適應*/
     height: 30px;
     display: flex;
     justify-content: space-between;
     padding-bottom: 20px;
     box-sizing: border-box;
   }
-  .m-memberForm-header{
-    margin: auto; 
+  .m-memberForm-header {
+    margin: auto;
     padding-left: 30px;
     box-sizing: border-box;
-    height:27px;
-    font-weight:700;
+    height: 27px;
+    font-weight: 700;
     font-size: 24px;
     line-height: 24px;
     text-align: center;
     color: #666666;
   }
-  .m-memberForm-close{
+  .m-memberForm-close {
     margin-bottom: 10px;
     box-sizing: border-box;
-    background-color:transparent;
+    background-color: transparent;
   }
   .m-memberForm {
-     width: 100%;
-     display: flex;
-     flex-direction: column;
-     justify-content: center;
-     align-items: center;
-     position: relative;
-     background-color: #FFFFFF;
-     padding: 15px;
-     box-sizing: border-box;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background-color: #ffffff;
+    padding: 15px;
+    box-sizing: border-box;
   }
-  .m-memberForm-headerAndClose,.m-form-header,.m-memberForm-input,.m-memberForm-button,.m-memberForm-link{
+  .m-memberForm-headerAndClose,
+  .m-form-header,
+  .m-memberForm-input,
+  .m-memberForm-button,
+  .m-memberForm-link {
     width: 100%;
   }
-  .m-memberForm-input{
+  .m-memberForm-input {
     height: 47px;
     padding: 15px;
     margin: 5px 0px;
     border-radius: 5px;
-    border: 1px solid #CCCCCC;
-    box-sizing: border-box; 
-    font-weight:500;
+    border: 1px solid #cccccc;
+    box-sizing: border-box;
+    font-weight: 500;
     font-size: 16px;
     line-height: 13.3px;
     color: #757575;
   }
-  .m-memberForm-button{
+  .m-memberForm-button {
     height: 47px;
     border-radius: 5px;
     background-color: #448899;
     margin: 5px 0px;
-    font-weight:400;
+    font-weight: 400;
     font-size: 19px;
     line-height: 14px;
-    text-align:center;
-    color: #FFFFFF;
+    text-align: center;
+    color: #ffffff;
   }
-  .m-memberForm-auth,.m-memberForm-link{
+  .m-memberForm-auth,
+  .m-memberForm-link {
     height: 22px;
-    font-weight:500;
+    font-weight: 500;
     font-size: 16px;
     line-height: 13.3px;
-    margin-top:10px;
+    margin-top: 10px;
     text-align: center;
   }
-  .m-memberForm-link{
-    color:#666666;
+  .m-memberForm-link {
+    color: #666666;
   }
   /* footer部分 */
-  .l-footer{
+  .l-footer {
     width: 100%;
-    height:auto; /*104px;*/
+    height: auto;
     box-sizing: border-box;
-    padding: 40px 0px;            /*設定max-width、不在同元素又設padding左右邊 ->出現橫向卷軸+其他元素 相對離視窗右邊一定程度留白*/  
+    padding: 40px 0px; /* 設定max-width、不在同元素又設padding左右邊 ->出現橫向卷軸+其他元素 相對離視窗右邊一定程度留白*/
     background-color: #757575;
     margin: 0 auto;
-    display: block; /*搭配JS狀態切換設置*/
+    display: block; /*  搭配JS狀態切換設置*/
   }
-  .m-footer-text{   
-    width: 100%;          
-    width:  auto;
+  .m-footer-text {
+    width: 100%;
+    width: auto;
     font-weight: 700;
     font-size: 16px;
     line-height: 13.3px;
-    white-space: nowrap; 
+    white-space: nowrap;
     text-align: center;
-    color: #FFFFFF;
-    margin: auto;                
+    color: #ffffff;
+    margin: auto;
   }
 }
 @media screen and (max-width: 1199px) {
-     /*逕寫 *或html或body 無法讓所有層級子元素套用width: 100vw; */  
-    /*寫死寬度(含max-width)的子元素: 本身指明寬度% (非佔滿者，把原始大小換算比例) or直接上層父元素寫佔滿視窗vw
-      ->否則(1)撐破父元素，離視窗右邊視覺留白 或(2)裝置小時 爆版重疊*/  
-  .l-nav.l-nav-container,.l-backdrop ,.l-footer{
-      width: 100vw; 
+  /*  逕寫 *或html或body 無法讓所有層級子元素套用width: 100vw; */
+  /*  寫死寬度(含max-width)的子元素: 本身指明寬度% (非佔滿者，把原始大小換算比例) or直接上層父元素寫佔滿視窗vw
+      ->否則(1)撐破父元素，離視窗右邊視覺留白 或(2)裝置小時 爆版重疊*/
+  .l-nav.l-nav-container,
+  .l-backdrop,
+  .l-footer {
+    width: 100vw;
   }
 }
 @media (max-width: 500px) {
-  .l-nav,.l-nav-container,.l-backdrop ,.l-footer{
+  .l-nav,
+  .l-nav-container,
+  .l-backdrop,
+  .l-footer {
     width: 100vw;
   }
-  /*多個子元素 自適應裝置寬度: (x)只寫各元素max-width(o)flex-shrink等比例縮小、flex-basis調整前寬度100%,別寫auto */
+  /*  多個子元素 自適應裝置寬度: (x)只寫各元素max-width(o)flex-shrink等比例縮小、flex-basis調整前寬度100%,別寫auto */
   .l-nav-container {
-    flex-wrap: wrap;   /*寬度縮太小,仍允換行*/ 
+    flex-wrap: wrap; /* 寬度縮太小,仍允換行*/
   }
-  .m-nav-logo{
-    display: flex; /*讓<a>inline子元素 能套用flex*/  
+  .m-nav-logo {
+    display: flex; /* 讓<a>inline子元素 能套用flex*/
   }
-  .m-logo-title, .m-nav-links {
+  .m-logo-title,
+  .m-nav-links {
     display: flex;
-    flex: 0 3 100%; 
+    flex: 0 3 100%;
   }
-  .m-link-item1, .m-link-item2 {
+  .m-link-item1,
+  .m-link-item2 {
     display: flex;
-    flex: 0 2  100%;
-    padding:10px 0px;
+    flex: 0 2 100%;
+    padding: 10px 0px;
     background-color: transparent;
   }
-  .l-modal-signin,.l-modal-signup{
+  .l-modal-signin,
+  .l-modal-signup {
     width: 95vw;
     justify-content: center;
-    margin-left: 10px; /*@@ 定位左右0+margin:auto =離視窗左邊間距較多*/
+    margin-left: 10px; /* 定位左右0+margin:auto =離視窗左邊間距較多*/
   }
 }

@@ -8,12 +8,10 @@ def create_pool():
         "host": "localhost",
         "user": "root",
         "password": os.environ.get("DB_PASSWORD"),
-        "database": "taipei_trip"
+        "database": "taipei_trip",
     }
     pool = mysql.connector.pooling.MySQLConnectionPool(
-        pool_name="mypool",
-        pool_size=6,
-        **dbconfig
+        pool_name="mypool", pool_size=6, **dbconfig
     )
     return pool
 
@@ -25,7 +23,6 @@ def load_data_to_database(connection_pool):
     # 避每次執行app.py重複操作:前提-資料尚未存在
     cursor.execute("SELECT COUNT(*) FROM attractions")
     if (cursor.fetchone())[0] > 0:
-        # print("資料已存在，不執行寫入資料值操作")
         return
 
     with open("taipei-attractions.json", "r", encoding="utf-8") as file:
@@ -41,10 +38,11 @@ def load_data_to_database(connection_pool):
         category = attraction["CAT"]
         transport = attraction["direction"]
         image_urls = attraction["file"].split("https://")
-        filtered_images = ([
-            f"https://{url}" for url in image_urls
+        filtered_images = [
+            f"https://{url}"
+            for url in image_urls
             if url and (url.lower().endswith("jpg") or url.lower().endswith("png"))
-        ])
+        ]
         images = ",".join(filtered_images)
 
         sql = """
@@ -60,15 +58,27 @@ def load_data_to_database(connection_pool):
         """
         try:
             cursor.execute(
-                sql, (name, description, address, lat, lng, mrt,
-                      category, transport, images)
+                sql,
+                (
+                    name,
+                    description,
+                    address,
+                    lat,
+                    lng,
+                    mrt,
+                    category,
+                    transport,
+                    images,
+                ),
             )
             cnx.commit()
             print(f"Inserted: {name}")
         except mysql.connector.Error as err:
             print(f"Error: {err}")
             print(f"SQL: {sql}")
-            print(f"Values: {name, description, address, lat, lng, mrt, category, transport, images}")
+            print(
+                f"Values: {name, description, address, lat, lng, mrt, category, transport, images}"
+            )
     cursor.close()
     cnx.close()
 

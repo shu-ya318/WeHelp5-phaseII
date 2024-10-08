@@ -1,238 +1,258 @@
 @media screen and (max-width: 1920px) {
-    /* main部分 */
-    .l-main{
-        width: 100%;
-        height: auto;              
-        box-sizing: border-box;
-        padding: 40px 0px;
-    }
-    .l-main-container{          
-        display: flex ;
-        flex-direction:column ;     
-        justify-content: center ;   
-        align-items: center ; 
-        max-width: 1200px;              
-        margin: auto;             
-        height: auto;
-        padding-top: 60px; /*.l-main和.l-main-container都得設padding-top*/
-        box-sizing: border-box;
-    }
-    /*<main>直接子元素*/
-    .m-orderHeader,.m-deleted-orderForm,.m-orderForm,.m-orderHeader{
-        color: #666666;
-    }
-    .m-orderHeader,.m-deleted-orderForm{
-        width: 100%;
-        padding: 0px 100px;
-        box-sizing: border-box;
-    }
-    .m-orderHeader{
-        height: 27px; 
-        font-size: 19px;
-        font-weight: 700;
-        line-height: 16px;
-    }
-    /*表單*/
-    .m-deleted-orderForm{
-        display: none;
-        margin-top: 30px;
-        height: 24px;
-        font-size: 16px;
-        font-weight: 400;
-        line-height: 13.3px;
-    }
-    .m-orderForm{
-        display: flex ;
-        flex-direction:column ; 
-        justify-content: space-between; 
-        margin-top: 30px;
-        width: 100%; /*勿max-width:1200px;寬會更少*/
-        height: auto;
-        box-sizing: border-box; 
-    }
-    .m-orderForm-container,.m-container-booking,.m-container-order{
-        display: flex ;
-        flex-direction:column ; 
-        justify-content: space-between;
-        height: auto;
-        width: 100%;
-        padding: 0px 110px;
-        margin-bottom: 20px;
-        box-sizing: border-box;
-    }
-    /*每橫行*/
-    .m-orderForm-wrapper,.m-orderForm-bookingWrapper{
-        width: 100%;
-        height: 24px;    
-    }
-    .m-label-booking,.m-orderForm-label,.m-orderForm-text,.m-text-notice{
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 13.3px;
-    }
-    .l-main-hr{
-        width:100%;
-        border: 1px solid #E8E8E8;
-        margin-bottom: 30px;
-        box-sizing: border-box;
-    }
-    /*圖文*/
-    .m-container-booking{
-        flex-direction: row;
-        height: 200px;
-    }
-    .m-orderForm-img{
-        width: 250px; /*勿寫max-width，手機裝置width:100%不滿版*/
-        height:100%;
-        border-radius: 5px;
-        object-fit: cover;
-    }
-    .m-orderForm-booking{
-        display: flex ;
-        flex-direction:column ; 
-        justify-content: space-between;
-        width: 700px;
-        height:100%;
-        padding-bottom: 30px;
-        box-sizing: border-box;
-    }
-    .m-orderForm-bookingWrapper{
-        display: flex ;
-        justify-content: space-between;
-        margin-bottom: 5px; /*因總寬高固定,padding不相對下元素上推*/
-        box-sizing: border-box;
-    }
-    .m-orderForm-bookingHeader{
-        color: #448899;
-        font-weight: 700;
-        line-height: 13.3px;
-    }
-    .m-orderForm-delete{ /*<button>內<img>，消弭預設padding+background-color*/
-        width: 30px;
-        height: 30px;
-        padding: 0px;
-        background-color: transparent;
-    }
-    .m-label-booking,.m-text-notice{
-        font-weight: 700;  
-        height: 24px;  
-    }
-    /*輸入*/  /*iframe屬性需用js動態改變*/
-    .tpfield{     /*inline-block:需行內元素才和它元素同行+但又讓inline禁用屬性可用 ex width*/
-        display: inline-block;
-    }
-    .m-orderForm-title{
-        width: 100%;
-        height: 24px;
-        font-weight: 700;
-        font-size: 19px;
-        line-height: 16px;
-        margin-bottom: 15px;
-        box-sizing: border-box;
-    }
-    .m-orderForm-label,.m-orderForm-input{
-        height: 38px;
-        margin-bottom: 15px;
-        box-sizing: border-box;
-    }
-    .m-orderForm-input{
-        width: 200px;
-        border: 1px solid #E8E8E8;
-        border-radius: 5px;
-        padding: 10px;
-        box-sizing: border-box;
-    }
-    .m-text-notice{
-        font-weight: 700;
-        margin-top: 5px;
-        box-sizing: border-box;
-    }
-    /*確認*/
-    .m-container-order{
-        align-items: flex-end;
-    }
-    .m-text-amount{
-        width: 174px;
-        height: 20px;
-        text-align: right;
-        font-weight: 700;
-        margin-top:10px;
-        margin-bottom: 25px;
-        box-sizing: border-box;
-    }
-    .m-orderForm-button{
-        width: 174px;
-        height: 36px;
-        margin-bottom: 10px;
-        padding: 10px 20px;
-        border-radius: 5px;
-        box-sizing: border-box;
-        background-color: #448899;
-        color: #FFFFFF;
-        font-weight: 400;
-        font-size: 19px;
-        line-height: 16px;
-        text-align: center;
-    }
+  /* main部分 */
+  .l-main {
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+    padding: 40px 0px;
+  }
+  .l-main-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 1200px;
+    margin: auto;
+    height: auto;
+    padding-top: 60px; /* .l-main和.l-main-container都得設padding-top*/
+    box-sizing: border-box;
+  }
+  /*  <main>直接子元素*/
+  .m-orderHeader,
+  .m-deleted-orderForm,
+  .m-orderForm,
+  .m-orderHeader {
+    color: #666666;
+  }
+  .m-orderHeader,
+  .m-deleted-orderForm {
+    width: 100%;
+    padding: 0px 100px;
+    box-sizing: border-box;
+  }
+  .m-orderHeader {
+    height: 27px;
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 16px;
+  }
+  /*  表單*/
+  .m-deleted-orderForm {
+    display: none;
+    margin-top: 30px;
+    height: 24px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 13.3px;
+  }
+  .m-orderForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 30px;
+    width: 100%; /* 勿max-width:1200px;寬會更少*/
+    height: auto;
+    box-sizing: border-box;
+  }
+  .m-orderForm-container,
+  .m-container-booking,
+  .m-container-order {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: auto;
+    width: 100%;
+    padding: 0px 110px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+  }
+  /*  每橫行*/
+  .m-orderForm-wrapper,
+  .m-orderForm-bookingWrapper {
+    width: 100%;
+    height: 24px;
+  }
+  .m-label-booking,
+  .m-orderForm-label,
+  .m-orderForm-text,
+  .m-text-notice {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 13.3px;
+  }
+  .l-main-hr {
+    width: 100%;
+    border: 1px solid #e8e8e8;
+    margin-bottom: 30px;
+    box-sizing: border-box;
+  }
+  /*  圖文*/
+  .m-container-booking {
+    flex-direction: row;
+    height: 200px;
+  }
+  .m-orderForm-img {
+    width: 250px; /*  勿寫max-width，手機裝置width:100%不滿版*/
+    height: 100%;
+    border-radius: 5px;
+    object-fit: cover;
+  }
+  .m-orderForm-booking {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 700px;
+    height: 100%;
+    padding-bottom: 30px;
+    box-sizing: border-box;
+  }
+  .m-orderForm-bookingWrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px; /*  因總寬高固定,padding不相對下元素上推*/
+    box-sizing: border-box;
+  }
+  .m-orderForm-bookingHeader {
+    color: #448899;
+    font-weight: 700;
+    line-height: 13.3px;
+  }
+  .m-orderForm-delete {
+    /*  <button>內<img>，消弭預設padding+background-color*/
+    width: 30px;
+    height: 30px;
+    padding: 0px;
+    background-color: transparent;
+  }
+  .m-label-booking,
+  .m-text-notice {
+    font-weight: 700;
+    height: 24px;
+  }
+  /*輸入*/ /*iframe屬性需用js動態改變*/
+  .tpfield {
+    /*  inline-block:需行內元素才和它元素同行+但又讓inline禁用屬性可用 ex width*/
+    display: inline-block;
+  }
+  .m-orderForm-title {
+    width: 100%;
+    height: 24px;
+    font-weight: 700;
+    font-size: 19px;
+    line-height: 16px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+  }
+  .m-orderForm-label,
+  .m-orderForm-input {
+    height: 38px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+  }
+  .m-orderForm-input {
+    width: 200px;
+    border: 1px solid #e8e8e8;
+    border-radius: 5px;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+  .m-text-notice {
+    font-weight: 700;
+    margin-top: 5px;
+    box-sizing: border-box;
+  }
+  /*  確認*/
+  .m-container-order {
+    align-items: flex-end;
+  }
+  .m-text-amount {
+    width: 174px;
+    height: 20px;
+    text-align: right;
+    font-weight: 700;
+    margin-top: 10px;
+    margin-bottom: 25px;
+    box-sizing: border-box;
+  }
+  .m-orderForm-button {
+    width: 174px;
+    height: 36px;
+    margin-bottom: 10px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background-color: #448899;
+    color: #ffffff;
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 16px;
+    text-align: center;
+  }
 }
 @media screen and (max-width: 1199px) {
-    .l-main-container{
-        width: 100vw; 
-        justify-content: space-around; 
-    }
-    .m-orderHeader,.m-deleted-orderForm{
-        width: 92vw;
-        padding: 0;
-    } 
-    .m-orderForm{
-        width: 90vw;
-        padding: 0;
-    }
-    .m-orderForm-container,.m-container-booking,.m-container-order{
-        padding: 0;
-    }
-    .m-orderForm-booking{
-        width: 100%;
-        margin-left: 30px;
-    } 
-    .m-text-notice{ /*換行:改行高，非指定高度*/
-        height: auto;
-        line-height: 23.17px;
-    }
+  .l-main-container {
+    width: 100vw;
+    justify-content: space-around;
+  }
+  .m-orderHeader,
+  .m-deleted-orderForm {
+    width: 92vw;
+    padding: 0;
+  }
+  .m-orderForm {
+    width: 90vw;
+    padding: 0;
+  }
+  .m-orderForm-container,
+  .m-container-booking,
+  .m-container-order {
+    padding: 0;
+  }
+  .m-orderForm-booking {
+    width: 100%;
+    margin-left: 30px;
+  }
+  .m-text-notice {
+    /*  換行:改行高，非指定高度*/
+    height: auto;
+    line-height: 23.17px;
+  }
 }
 @media (max-width: 500px) {
-    .m-orderHeader,.m-orderForm{
-        width: 100vw;
-        padding: 0px 10px;
-    }
-    .m-orderForm{
-        margin-top: 0px;
-    }
-    .m-orderHeader{
-        height: 24px;
-    }
-    .m-container-booking{
-        flex-direction: column;
-        height: auto;
-    }
-    .m-orderForm-img,.m-orderForm-booking{
-        width: 100%;
-        height: 200px;
-    }
-    .m-orderForm-img{
-        margin: 40px 0px;
-        box-sizing: border-box;
-    }
-    .m-orderForm-booking{
-        margin-left: 0px;
-    }
-    .m-orderForm-booking{
-        position: relative;
-    }
-    .m-orderForm-delete{ /*改定位:無視原彈性容器設定，逕寫和要訂位者的定位設定*/
-        position: absolute;
-        bottom: 0px;
-        right: 0px; 
-    }
-
+  .m-orderHeader,
+  .m-orderForm {
+    width: 100vw;
+    padding: 0px 10px;
+  }
+  .m-orderForm {
+    margin-top: 0px;
+  }
+  .m-orderHeader {
+    height: 24px;
+  }
+  .m-container-booking {
+    flex-direction: column;
+    height: auto;
+  }
+  .m-orderForm-img,
+  .m-orderForm-booking {
+    width: 100%;
+    height: 200px;
+  }
+  .m-orderForm-img {
+    margin: 40px 0px;
+    box-sizing: border-box;
+  }
+  .m-orderForm-booking {
+    margin-left: 0px;
+  }
+  .m-orderForm-booking {
+    position: relative;
+  }
+  .m-orderForm-delete {
+    /*  改定位:無視原彈性容器設定，逕寫和要訂位者的定位設定*/
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+  }
 }

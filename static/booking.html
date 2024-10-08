@@ -1,86 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Booking</title>
-  <link rel="stylesheet" type="text/css"  href="/static/css/common.css">
-  <link rel="stylesheet" type="text/css" href="/static/css/booking.css">  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
-</head>
-<body>
-  <div id="common-container"></div>
-  <main class="l-main" id="main">
-    <div class="l-main-container">
-      <h3 id="username-trip" class="m-orderHeader"><!--動態取值--></h3>
-      <p id="deleted-orderForm" class="m-deleted-orderForm">目前沒有任何待預訂的行程</p>
-      <form id="orderForm" class="m-orderForm">
-        <div class="m-container-booking">
-          <img id="img" class="m-orderForm-img" src="/static/image/placeholder.png" alt="attraction-img"/>
-          <div class="m-orderForm-booking">
-            <div class="m-orderForm-bookingWrapper">
-              <h3 id="attraction-name" class="m-orderForm-bookingHeader"><!--動態取值--></h3>
-              <button class="m-orderForm-delete">
-                <img id="delete"  src="/static/image/delete.png" alt="delete-icon"/>
-              </button>
-            </div>
-            <div class="m-orderForm-wrapper" >
-              <strong class="m-label-booking">日期:</strong>
-              <span id="date" class="m-orderForm-text"><!--動態取值--></span>
-            </div>
-            <div class="m-orderForm-wrapper">
-              <strong class="m-label-booking">時間:</strong>
-              <span id="time"  class="m-orderForm-text"><!--動態取值--></span>
-            </div>
-            <div class="m-orderForm-wrapper">
-              <strong class="m-label-booking">費用:</strong>
-              <span id="price"  class="m-orderForm-text"><!--動態取值--></span>
-            </div>
-            <div class="m-orderForm-wrapper">
-              <strong class="m-label-booking">地點:</strong>
-              <span id="address"  class="m-orderForm-text"><!--動態取值--></span>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Booking</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/common.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/booking.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="common-container"></div>
+    <main class="l-main" id="main">
+      <div class="l-main-container">
+        <h3 id="username-trip" class="m-orderHeader"><!--動態取值--></h3>
+        <p id="deleted-orderForm" class="m-deleted-orderForm">
+          目前沒有任何待預訂的行程
+        </p>
+        <form id="orderForm" class="m-orderForm">
+          <div class="m-container-booking">
+            <img
+              id="img"
+              class="m-orderForm-img"
+              src="/static/image/placeholder.png"
+              alt="attraction-img"
+            />
+            <div class="m-orderForm-booking">
+              <div class="m-orderForm-bookingWrapper">
+                <h3 id="attraction-name" class="m-orderForm-bookingHeader">
+                  <!--動態取值-->
+                </h3>
+                <button class="m-orderForm-delete">
+                  <img
+                    id="delete"
+                    src="/static/image/delete.png"
+                    alt="delete-icon"
+                  />
+                </button>
+              </div>
+              <div class="m-orderForm-wrapper">
+                <strong class="m-label-booking">日期:</strong>
+                <span id="date" class="m-orderForm-text"><!--動態取值--></span>
+              </div>
+              <div class="m-orderForm-wrapper">
+                <strong class="m-label-booking">時間:</strong>
+                <span id="time" class="m-orderForm-text"><!--動態取值--></span>
+              </div>
+              <div class="m-orderForm-wrapper">
+                <strong class="m-label-booking">費用:</strong>
+                <span id="price" class="m-orderForm-text"><!--動態取值--></span>
+              </div>
+              <div class="m-orderForm-wrapper">
+                <strong class="m-label-booking">地點:</strong>
+                <span id="address" class="m-orderForm-text"
+                  ><!--動態取值--></span
+                >
+              </div>
             </div>
           </div>
-        </div>
-        <hr class="l-main-hr" />  
-        <div class="m-orderForm-container">
-          <h3 class="m-orderForm-title">您的聯絡資訊</h3>
-          <label class="m-orderForm-label">聯絡姓名:
-            <input id="name" class="m-orderForm-input" type="text"  name="name" required/>
-          </label>
-          <label class="m-orderForm-label">聯絡信箱:
-            <input id="email" class="m-orderForm-input" type="email"  name="email" required/>
-          </label>
-          <label class="m-orderForm-label">手機號碼:
-            <input id="phone" class="m-orderForm-input" type="tel"  name="phone" required/>
-          </label>
-          <p class="m-text-notice">請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</p>
-        </div>
-        <hr class="l-main-hr" />
-        <div class="m-orderForm-container">
-          <h3 class="m-orderForm-title">信用卡付款資訊</h3>
-          <label class="m-orderForm-label">卡片號碼:
-            <div class="tpfield m-orderForm-input" id="card-number" ></div>
-          </label>
-          <label class="m-orderForm-label">過期時間:
-            <div class="tpfield m-orderForm-input" id="card-expiration-date" ></div>
-          </label>
-          <label class="m-orderForm-label">驗證密碼:
-            <div class="tpfield m-orderForm-input" id="card-ccv" ></div>
-          </label>
-        </div>
-        <hr class="l-main-hr" />
-        <div class="m-container-order">
-          <p id="total-price" class="m-text-amount"><!--動態取值--></p>
-          <button id="order-button"  class="m-orderForm-button" type="button" >確認訂購並付款</button>
-        </div>
-      </form>
-    </div>
-  </main>
-  <script type="text/javascript" src="/static/js/common.js"></script>
-  <script src="https://js.tappaysdk.com/sdk/tpdirect/v5.14.0"></script>
-  <script type="text/javascript" src="/static/js/booking.js"></script>
-</body>
+          <hr class="l-main-hr" />
+          <div class="m-orderForm-container">
+            <h3 class="m-orderForm-title">您的聯絡資訊</h3>
+            <label class="m-orderForm-label"
+              >聯絡姓名:
+              <input
+                id="name"
+                class="m-orderForm-input"
+                type="text"
+                name="name"
+                required
+              />
+            </label>
+            <label class="m-orderForm-label"
+              >聯絡信箱:
+              <input
+                id="email"
+                class="m-orderForm-input"
+                type="email"
+                name="email"
+                required
+              />
+            </label>
+            <label class="m-orderForm-label"
+              >手機號碼:
+              <input
+                id="phone"
+                class="m-orderForm-input"
+                type="tel"
+                name="phone"
+                required
+              />
+            </label>
+            <p class="m-text-notice">
+              請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。
+            </p>
+          </div>
+          <hr class="l-main-hr" />
+          <div class="m-orderForm-container">
+            <h3 class="m-orderForm-title">信用卡付款資訊</h3>
+            <label class="m-orderForm-label"
+              >卡片號碼:
+              <div class="tpfield m-orderForm-input" id="card-number"></div>
+            </label>
+            <label class="m-orderForm-label"
+              >過期時間:
+              <div
+                class="tpfield m-orderForm-input"
+                id="card-expiration-date"
+              ></div>
+            </label>
+            <label class="m-orderForm-label"
+              >驗證密碼:
+              <div class="tpfield m-orderForm-input" id="card-ccv"></div>
+            </label>
+          </div>
+          <hr class="l-main-hr" />
+          <div class="m-container-order">
+            <p id="total-price" class="m-text-amount"><!--動態取值--></p>
+            <button id="order-button" class="m-orderForm-button" type="button">
+              確認訂購並付款
+            </button>
+          </div>
+        </form>
+      </div>
+    </main>
+    <script type="text/javascript" src="/static/js/common.js"></script>
+    <script src="https://js.tappaysdk.com/sdk/tpdirect/v5.14.0"></script>
+    <script type="text/javascript" src="/static/js/booking.js"></script>
+  </body>
 </html>

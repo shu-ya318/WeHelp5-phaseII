@@ -9,7 +9,7 @@ import mysql.connector.pooling
 
 
 # 先載入模組、替代app = FastAPI(  )
-router = APIRouter(tags=['Attraction_and_Mrt'])
+router = APIRouter(tags=["Attraction_and_Mrt"])
 
 
 #  定義 API 的請求、回應的資料結構，便於前端處理
@@ -46,9 +46,7 @@ class ErrorResponse(BaseModel):
 
 def create_database_and_table():
     db = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password=os.environ.get("DB_PASSWORD")
+        host="localhost", user="root", password=os.environ.get("DB_PASSWORD")
     )
     cursor = db.cursor()
     cursor.execute("CREATE DATABASE IF NOT EXISTS taipei_trip")
@@ -78,12 +76,10 @@ def create_pool():
         "host": "localhost",
         "user": "root",
         "password": os.environ.get("DB_PASSWORD"),
-        "database": "taipei_trip"
+        "database": "taipei_trip",
     }
     connection_pool = mysql.connector.pooling.MySQLConnectionPool(
-        pool_name="mypool",
-        pool_size=6,
-        **dbconfig
+        pool_name="mypool", pool_size=6, **dbconfig
     )
     return connection_pool
 
@@ -96,13 +92,13 @@ def get_db_connection():
     return pool.get_connection()
 
 
-@router.get('/api/attractions', responses={
-            200: {"model": AttractionResponse},
-            500: {"model": ErrorResponse}
-            })
-async def query_attractions(page: int = Query(0, ge=0),
-                            keyword: Optional[str] = None
-                            ):  # 參數(x)match_mrt預設布林值，否則網址多輸入&match_mrt=True
+@router.get(
+    "/api/attractions",
+    responses={200: {"model": AttractionResponse}, 500: {"model": ErrorResponse}},
+)
+async def query_attractions(
+    page: int = Query(0, ge=0), keyword: Optional[str] = None
+):  # 參數(x)match_mrt預設布林值，否則網址多輸入&match_mrt=True
     db_cursor = None
     connection = None
     try:
@@ -110,25 +106,25 @@ async def query_attractions(page: int = Query(0, ge=0),
         db_cursor = connection.cursor(dictionary=True)
     except Error:
         return JSONResponse(
-            status_code=500,
-            content={"error": True,
-                     "message": "INTERNAL_SERVER_ERROR"}
+            status_code=500, content={"error": True, "message": "INTERNAL_SERVER_ERROR"}
         )
 
     try:
         db_cursor = connection.cursor(dictionary=True)
         page_size = 12
         offset = page * page_size
-        base_query = ("""
+        base_query = """
             SELECT id, name, category, description, address, transport, mrt,
             lat, lng, images
             FROM attractions
-        """)
+        """
         where_clause = ""
         params = []
 
-        if keyword and keyword.strip():                             # 檢查 keyword 是否存在且非空白字串 (滿足條件: 不給定 =不篩選、顯示所有資料)
-            keyword = keyword.strip()                               # 過濾 關鍵字兩側空白字串
+        if (
+            keyword and keyword.strip()
+        ):  # 檢查 keyword 是否存在且非空白字串 (滿足條件: 不給定 =不篩選、顯示所有資料)
+            keyword = keyword.strip()  # 過濾 關鍵字兩側空白字串
             where_clause = " WHERE name LIKE %s OR TRIM(mrt) = %s"  # 滿足其一: 模糊匹配景點名稱 或 完全匹配捷運站名稱，且先過濾空白
             params = [f"%{keyword}%", keyword]
 
@@ -144,9 +140,7 @@ async def query_attractions(page: int = Query(0, ge=0),
         next_page_exists = db_cursor.fetchone()
     except Error:
         return JSONResponse(
-            status_code=500,
-            content={"error": True,
-                     "message": "INTERNAL_SERVER_ERROR"}
+            status_code=500, content={"error": True, "message": "INTERNAL_SERVER_ERROR"}
         )
     finally:
         if db_cursor:
@@ -164,26 +158,24 @@ async def query_attractions(page: int = Query(0, ge=0),
     next_page = page + 1 if next_page_exists else None
 
     response_data = AttractionResponse(nextPage=next_page, data=attractions)
-    return JSONResponse(
-        content=response_data.model_dump(),
-        status_code=200
-    )
+    return JSONResponse(content=response_data.model_dump(), status_code=200)
 
 
-@router.get('/api/attraction/{attractionId}', responses={
-            200: {"model": AttractionByIdResponse},
-            400: {"model": ErrorResponse},
-            500: {"model": ErrorResponse}
-            })
+@router.get(
+    "/api/attraction/{attractionId}",
+    responses={
+        200: {"model": AttractionByIdResponse},
+        400: {"model": ErrorResponse},
+        500: {"model": ErrorResponse},
+    },
+)
 async def get_attraction(attractionId: int):
     db_cursor = None
     connection = None
     try:
         connection = get_db_connection()
         db_cursor = connection.cursor(dictionary=True)
-        db_cursor.execute(
-            "SELECT * FROM attractions WHERE id = %s", (attractionId,)
-        )
+        db_cursor.execute("SELECT * FROM attractions WHERE id = %s", (attractionId,))
         result = db_cursor.fetchone()
 
         if not result:
@@ -192,20 +184,13 @@ async def get_attraction(attractionId: int):
                 status_code=400,
             )
 
-        result["images"] = (
-            result["images"].split(",") if result["images"] else []
-        )
+        result["images"] = result["images"].split(",") if result["images"] else []
 
         response_data = AttractionByIdResponse(data=Attraction(**result))
-        return JSONResponse(
-            content=response_data.model_dump(),
-            status_code=200
-        )
+        return JSONResponse(content=response_data.model_dump(), status_code=200)
     except Error:
         return JSONResponse(
-            content={"error": True,
-                     "message": "INTERNAL_SERVER_ERROR"},
-            status_code=500
+            content={"error": True, "message": "INTERNAL_SERVER_ERROR"}, status_code=500
         )
     finally:
         if db_cursor:
@@ -215,36 +200,30 @@ async def get_attraction(attractionId: int):
 
 
 # 需分組捷運站，再統計每站景點數，最後由多到少排序
-@router.get('/api/mrts', responses={
-            200: {"model": MRT},
-            500: {"model": ErrorResponse}
-            })
+@router.get("/api/mrts", responses={200: {"model": MRT}, 500: {"model": ErrorResponse}})
 async def get_mrts():
     db_cursor = None
     connection = None
     try:
         connection = get_db_connection()
         db_cursor = connection.cursor(dictionary=True)
-        db_cursor.execute("""
+        db_cursor.execute(
+            """
             SELECT mrt, COUNT(*) as count
             FROM attractions
-            WHERE mrt IS NOT NULL AND mrt != ''
+            WHERE mrt IS NOT NULL AND mrt != ""
             GROUP BY mrt
             ORDER BY count DESC
-        """)
+        """
+        )
         results = db_cursor.fetchall()
         mrt_stations = [result["mrt"] for result in results]
 
         response_data = MRT(data=mrt_stations)
-        return JSONResponse(
-            content=response_data.model_dump(),
-            status_code=200
-        )
+        return JSONResponse(content=response_data.model_dump(), status_code=200)
     except Error:
         return JSONResponse(
-            content={"error": True,
-                     "message": "INTERNAL_SERVER_ERROR"},
-            status_code=500
+            content={"error": True, "message": "INTERNAL_SERVER_ERROR"}, status_code=500
         )
     finally:
         if db_cursor:
