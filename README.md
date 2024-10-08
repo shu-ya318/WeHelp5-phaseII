@@ -80,4 +80,4 @@ website: http://34.196.51.67:8000/
 
 - **Email**: shuyaHsieh318@gmail.com
 - **Cake**: https://www.cake.me/funghi0983524367
-- **Linkedin**: https://www.linkedin.com/in/%E6%B7%91%E9%9B%85-%E8%AC%9D-9906772b1/https://www.linkedin.com/in/%E6%B7%91%E9%9B%85-%E8%AC%9D-9906772b1/
+- **Linkedin**: https://www.linkedin.com/in/%E6%B7%91%E9%9B%85-%E8%AC%9D-9906772b1/
