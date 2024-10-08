@@ -3,269 +3,286 @@
   .l-hero {
     width: 100%;
     height: 320px;
-    display: flex;                    /* 設了才讓下層版面子元素<div class="hero-slogan"> 完整顯示於內部 */     
-    background-image: url('/static/image/welcome_image.png')  ;
-    background-size: cover;          /* 確保背景圖片覆蓋整個元素*/ 
+    display: flex; /* 設了才讓下層版面子元素<div class="hero-slogan"> 完整顯示於內部 */
+    background-image: url("/static/image/welcome_image.png");
+    background-size: cover;
     background-repeat: no-repeat;
   }
   .l-hero-content {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;  
+    justify-content: center;
     max-width: 1200px;
-    margin: auto;        /*讓元素內部內容 可水平置中 */  
+    margin: auto;
     height: 169px;
-    box-sizing: border-box;  /* 設邊距，留意BOX總寬高固定 (讓不同區塊items對齊) */     
-    gap: 10px;               /* 垂直item的間距 */
+    box-sizing: border-box; /* 設邊距，留意BOX總寬高固定 (讓不同區塊items對齊) */
+    gap: 10px; /* 垂直item的間距 */
     padding: 10px;
-  }   
-  .m-hero-slogan{
+  }
+  .m-hero-slogan {
     display: flex;
     flex-direction: column;
   }
-  .m-slogan-header, .m-slogan-body{
-    width: 1180px;          /*@@沒設 或 設100%、max-width，只吃到父元素置中+寬很短*/  
+  .m-slogan-header,
+  .m-slogan-body {
+    width: 1180px; /* 沒設 或 設100%、max-width，只套用到父元素置中+寬很短*/
     font-weight: 700;
-    color: #F8F8F8;
+    color: #f8f8f8;
   }
   .m-slogan-header {
     height: 41px;
     font-size: 28px;
     line-height: 24px;
-    text-shadow: 0 0 30px #AABBCC;
-  }    
-  .m-slogan-body{
+    text-shadow: 0 0 30px #aabbcc;
+  }
+  .m-slogan-body {
     height: 22px;
     font-size: 16px;
     line-height: 13.3px;
-  }   
+  }
   .m-hero-search {
     width: 100%;
     height: 46px;
-  }   
-  .m-search-bar{
+  }
+  .m-search-bar {
     display: flex;
-    flex-direction:row;
+    flex-direction: row;
     width: 460px;
     height: 100%;
   }
   .m-search-input {
     width: 400px;
     height: 100%;
-    padding: 15px;  
-    border: none;                   
-    border-top-left-radius: 5px;    /*左上+左下才圓角*/  
+    padding: 15px;
+    border: none;
+    border-top-left-radius: 5px; /* 左上+左下才圓角*/
     border-bottom-left-radius: 5px;
-    box-sizing: border-box;          /* 未設，內部欄位溢出盒子@@ +盒子總寬減少 */
-    box-shadow: 0 0 20px #AABBCC;
+    box-sizing: border-box; /* 未設，內部欄位溢出盒子@@ +盒子總寬減少 */
+    box-shadow: 0 0 20px #aabbcc;
     font-weight: 700;
     font-size: 16px;
     line-height: 13.3px;
     color: #757575;
-  }   
+  }
   .m-search-button {
     width: 60px;
     height: 100%;
-    border-top-right-radius: 5px;    /* 右上+右下才圓角*/ 
+    border-top-right-radius: 5px; /* 右上+右下才圓角*/
     border-bottom-right-radius: 5px;
-    background-color: #448899;     
-    padding: 8px 15px;           
-  }  
-  /* main部分 */
-  .l-main{
+    background-color: #448899;
+    padding: 8px 15px;
+  }
+  /*  main部分 */
+  .l-main {
     width: 100%;
-    height: auto;                /*勿寫死高度 ，無限滾動新資料會跑版*/
+    height: auto; /*勿寫死高度 ，無限滾動新資料會跑版*/
     box-sizing: border-box;
     padding: 40px 0px;
   }
-  .l-main-container{             /*整體父元素:寫死寬度*/  
+  .l-main-container {
+    /*  整體父元素:寫死寬度*/
     display: flex;
-    flex-direction:column;     
-    justify-content: center;   /*相對於瀏覽器 僅水平置中、不設垂直置中*/  
-    align-items: center; 
-    max-width: 1200px;              
-    margin: auto;              /*相對於父元素 水平置中 */  
+    flex-direction: column;
+    justify-content: center; /* 相對於瀏覽器 僅水平置中、不設垂直置中*/
+    align-items: center;
+    max-width: 1200px;
+    margin: auto; /*  相對於父元素 水平置中 */
     height: auto;
   }
-/* 捷運站名列表 */  
-  .m-main-list-bar{
+  /*  捷運站名列表 */
+  .m-main-list-bar {
     display: flex;
-    height:70px;
-    box-sizing: border-box; 
-    padding-bottom:20px;
+    height: 70px;
+    box-sizing: border-box;
+    padding-bottom: 20px;
     overflow: hidden;
     white-space: nowrap;
-  }   
-  .m-list-bar-left-arrow,.m-list-bar-right-arrow{
-    width:47px;
+  }
+  .m-list-bar-left-arrow,
+  .m-list-bar-right-arrow {
+    width: 47px;
     border: none;
     box-sizing: border-box;
-    background-color: transparent; 
+    background-color: transparent;
   }
-  .m-list-bar-left-arrow:hover, .m-list-bar-right-arrow:hover {
-    opacity: 0.5;  
+  .m-list-bar-left-arrow:hover,
+  .m-list-bar-right-arrow:hover {
+    opacity: 0.5;
   }
-  .m-list-bar-left-arrow{
+  .m-list-bar-left-arrow {
     padding: 9px 0px 9px 15px;
   }
-  .m-list-bar-right-arrow{
-    padding: 9px 15px 9px  0px;
+  .m-list-bar-right-arrow {
+    padding: 9px 15px 9px 0px;
   }
-  .m-list-bar-icon{
+  .m-list-bar-icon {
     box-sizing: border-box;
     border: 1px solid #b3ababb2;
     border-radius: 100px;
   }
-  .m-list-bar-container{
-    width:1106px;
+  .m-list-bar-container {
+    width: 1106px;
     box-sizing: border-box;
     padding: 13px 10px;
-  }  
-  .m-list-bar-items{
+  }
+  .m-list-bar-items {
     display: flex;
-    height:24px;
+    height: 24px;
     box-sizing: border-box;
-    white-space: nowrap; 
-    overflow: hidden; /*寫了才有空間讓js事件確實發生位移*/ /*勿寫overflow-x: auto; 變成純靠水平卷軸移動*/ 
+    white-space: nowrap;
+    overflow: hidden; /*  寫了才有空間讓js事件確實發生位移*/ /*勿寫overflow-x: auto; 變成純靠水平卷軸移動*/
   }
-  .m-list-bar-item{      
+  .m-list-bar-item {
     box-sizing: border-box;
-    flex: 0 0 auto;        /*項目不伸縮，依原大小顯示*/
+    flex: 0 0 auto; /*  項目不伸縮，依原大小顯示*/
     padding: 5px 15px;
-    cursor: pointer; 
+    cursor: pointer;
   }
-/*景點*/  
-  .l-attraction-grid{      /*整體父元素:總寬=main容器)*/
-    height: auto;         /*勿寫死高度 ，無限滾動新資料爆版 (但內部每1格子可寫死總寬高)*/ 
+  /*景點*/
+  .l-attraction-grid {
+    /*  整體父元素:總寬=main容器)*/
+    height: auto; /*  勿寫死高度 ，無限滾動新資料爆版 (但內部每1格子可寫死總寬高)*/
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* grid的item:每1個格子、column: 每一橫排*/  
-    gap: 30px;           /*每一排網格垂直距離*/  
+    grid-template-columns: repeat(
+      4,
+      1fr
+    ); /* grid的item:每1個格子、column: 每一橫排*/
+    gap: 30px; /*每一排網格垂直距離*/
     padding: 15px;
     justify-content: center;
     align-items: start;
     box-sizing: border-box;
   }
-  .m-container-items {     /* 相對父元素:可寫死總寬高*/  
-      display: flex;
-      justify-content: flex-start;
-      flex: 1;  
-      flex-direction: column;    /* flex的item: 每1層直接的子元素、column: 每1直欄 */  
-      height: 242px;             /* flex的item沒正常顯示? 總寬高足夠 */  
-      width: 270px;
-      border:1px solid #e8e8e8;
-      border-radius: 5px;
-      overflow: hidden;
+  .m-container-items {
+    /* 相對父元素:可寫死總寬高*/
+    display: flex;
+    justify-content: flex-start;
+    flex: 1;
+    flex-direction: column; /* flex的item: 每1層直接的子元素、column: 每1直欄 */
+    height: 242px; /* flex的item沒正常顯示? 總寬高足夠 */
+    width: 270px;
+    border: 1px solid #e8e8e8;
+    border-radius: 5px;
+    overflow: hidden;
   }
-  .m-container-imageAndTitle{    
-    position: relative;  
+  .m-container-imageAndTitle {
+    position: relative;
   }
-  #attraction-link{
-    display: flex; 
+  #attraction-link {
+    display: flex;
     width: 100%;
     height: 197px;
   }
   .m-attraction-image {
-    width: 100%;       
+    width: 100%;
     object-fit: cover;
     object-position: center;
   }
-  .m-attraction-name {  /*顯示圖片內部: 疊上去->定位(相對於"包含自己+要疊者的父容器"&位置)+權重*/ /*文字一定程度滿版: block+寬度相對父元素100%+背景色*/
-      display: block;  
-      position: absolute;            
-      bottom: 0;
-      z-index: 103;
-      width: 100%;
-      height:40px;
-      padding: 10px;
-      box-sizing: border-box;
-      color: #FFFFFF;
-      background-color: #000000;
-      opacity: 0.6;
-      font-weight: 700;
-      font-size: 16px;
-      line-height: 13.3px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+  .m-attraction-name {
+    /*  顯示圖片內部: 疊上去->定位(相對於"包含自己+要疊者的父容器"&位置)+權重*/ /*文字一定程度滿版: block+寬度相對父元素100%+背景色*/
+    display: block;
+    position: absolute;
+    bottom: 0;
+    z-index: 103;
+    width: 100%;
+    height: 40px;
+    padding: 10px;
+    box-sizing: border-box;
+    color: #ffffff;
+    background-color: #000000;
+    opacity: 0.6;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 13.3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .m-flexible-container {
-      width: 100%;
-      height: 100%;
-      padding: 10px;
-      display: flex;         /*本身容器，影響item為mrt+category這2個span元素*/ 
-      justify-content: space-between;  
-      align-items: center;
-      font-weight: 500;
-      font-size: 16px;
-      line-height: 13.3px;
-      color: #757575;
-      background-color: #FFFFFF;
-      box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    display: flex; /* 本身容器，影響item為mrt+category這2個span元素*/
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 13.3px;
+    color: #757575;
+    background-color: #ffffff;
+    box-sizing: border-box;
   }
 }
 @media screen and (max-width: 1199px) {
-  .l-hero-content ,.l-main-container {
-    width: 100vw; 
+  .l-hero-content,
+  .l-main-container {
+    width: 100vw;
   }
-  .m-hero-slogan,.m-slogan-header,.m-slogan-body{
-    width: 100vw; 
+  .m-hero-slogan,
+  .m-slogan-header,
+  .m-slogan-body {
+    width: 100vw;
     margin: auto;
   }
-  .m-slogan-body{
+  .m-slogan-body {
     margin-top: 10px;
   }
-  .m-search-bar{
-    max-width:70%;  /*非佔滿&在最大值裝置較小比例+又在最小值裝置較大比例: max-width:%*/  
+  .m-search-bar {
+    max-width: 70%; /*  非佔滿&在最大值裝置較小比例+又在最小值裝置較大比例: max-width:%*/
   }
-  .m-search-input{
-    width:80%;
+  .m-search-input {
+    width: 80%;
   }
-  .m-search-button{
+  .m-search-button {
     width: 20%;
   }
-  /* 站名列表 @@自行計算減去2邊箭頭->否則寬度減少，箭頭按鈕無顯示於頁面*/  
-  .m-main-list-bar{
-    width: 100vw; 
+  /* 站名列表 @@自行計算減去2邊箭頭->否則寬度減少，箭頭按鈕無顯示於頁面*/
+  .m-main-list-bar {
+    width: 100vw;
   }
   .m-list-bar-container {
-    width: calc(100% - 94px); 
+    width: calc(100% - 94px);
   }
-    /* 景點網格、內部子元素 */
-  .l-attraction-grid { 
-    width: 100vw; 
-    grid-template-columns: repeat(auto-fill,minmax(45%,1fr)); 
+  /* 景點網格、內部子元素*/
+  .l-attraction-grid {
+    width: 100vw;
+    grid-template-columns: repeat(auto-fill, minmax(45%, 1fr));
   }
-  .m-container-items{   
+  .m-container-items {
     width: 100%;
   }
 }
 @media (max-width: 500px) {
-  .l-hero-content ,.l-main-container{
-    width: 100vw; 
+  .l-hero-content,
+  .l-main-container {
+    width: 100vw;
   }
-  .m-hero-slogan,.m-slogan-header,.m-slogan-body,.m-search-bar{
-    width: 100vw; 
+  .m-hero-slogan,
+  .m-slogan-header,
+  .m-slogan-body,
+  .m-search-bar {
+    width: 100vw;
   }
-  .m-slogan-header{
+  .m-slogan-header {
     margin-bottom: 5px;
   }
-  .m-slogan-body{
+  .m-slogan-body {
     margin-top: 15px;
   }
-  .m-search-bar{
+  .m-search-bar {
     width: 95vw;
   }
-  /* 站名列表 */  
+  /* 站名列表*/
   .m-list-bar-container {
-    width: calc(100% - 94px); 
+    width: calc(100% - 94px);
   }
-    /* 景點 */
-  .l-attraction-grid { 
-    width: 100vw; 
-    grid-template-columns: repeat(auto-fill,minmax(100%,1fr)); 
+  /* 景點*/
+  .l-attraction-grid {
+    width: 100vw;
+    grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
   }
-  .m-container-items{   
+  .m-container-items {
     width: 100%;
   }
 }

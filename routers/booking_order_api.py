@@ -16,12 +16,14 @@ from httpx import AsyncClient
 
 import traceback
 
-SECRET_KEY = os.environ.get('SECRET_KEY', '')
+SECRET_KEY = os.environ.get("SECRET_KEY", "")
 ALGORITHM = "HS256"
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/api/user/auth')     # 請求任何需授權api: 後端tokenUrl=驗證api、前端請求夾帶Bearer token
+oauth2_scheme = OAuth2PasswordBearer(
+    tokenUrl="/api/user/auth"
+)  # 請求任何需授權api: 後端tokenUrl=驗證api、前端請求夾帶Bearer token
 
 
-router = APIRouter(tags=['Booking_and_Order'])
+router = APIRouter(tags=["Booking_and_Order"])
 
 
 # 預定
@@ -114,7 +116,7 @@ def create_reservations_table():
         host="localhost",
         user="root",
         password=os.environ.get("DB_PASSWORD"),
-        database="taipei_trip"
+        database="taipei_trip",
     )
     cursor = db.cursor()
     create_table_query = """
@@ -141,7 +143,7 @@ def create_orders_table():
         host="localhost",
         user="root",
         password=os.environ.get("DB_PASSWORD"),
-        database="taipei_trip"
+        database="taipei_trip",
     )
     cursor = db.cursor()
     create_table_query = """
@@ -176,7 +178,7 @@ def create_payment_table():
         host="localhost",
         user="root",
         password=os.environ.get("DB_PASSWORD"),
-        database="taipei_trip"
+        database="taipei_trip",
     )
     cursor = db.cursor()
     create_table_query = """
@@ -202,12 +204,10 @@ def create_pool():
         "host": "localhost",
         "user": "root",
         "password": os.environ.get("DB_PASSWORD"),
-        "database": "taipei_trip"
+        "database": "taipei_trip",
     }
     connection_pool = mysql.connector.pooling.MySQLConnectionPool(
-        pool_name="mypool",
-        pool_size=6,
-        **dbconfig
+        pool_name="mypool", pool_size=6, **dbconfig
     )
     return connection_pool
 
@@ -227,11 +227,11 @@ def decode_token(token: str):
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         return payload
     except JWTError:
-        return None     # 不逕拋出異常，改為呼叫各函式自定義
+        return None  # 不逕拋出異常，改為呼叫各函式自定義
 
 
 # post請求('/api/orders')使用的輔函
-def create_order_number() -> str:    # 方:時間戳+隨機數
+def create_order_number() -> str:  # 方:時間戳+隨機數
     timestamp = int(datetime.now().timestamp())
     random_number = random.randint(100, 999)
     order_number = f"1{timestamp % 10000000000:010d}{random_number:03d}"
@@ -250,7 +250,7 @@ def get_reservation_id(user_id: int):
         """
         db_cursor.execute(query, (user_id,))
         result = db_cursor.fetchone()
-        return result['id'] if result else None
+        return result["id"] if result else None
     except Exception as e:
         print(f"Error fetching reservation id: {str(e)}")
         return None
@@ -273,7 +273,7 @@ def get_reservation_price(user_id: int):
         """
         db_cursor.execute(query, (user_id,))
         result = db_cursor.fetchone()
-        return result['price'] if result else None
+        return result["price"] if result else None
     except Exception as e:
         print(f"Error fetching reservation price: {str(e)}")
         return None
@@ -286,19 +286,23 @@ def get_reservation_price(user_id: int):
 
 # 需授權API:操作前先呼叫函式驗證token(->通過才進資料庫操作)
 #   預定表單提交
-@router.post("/api/booking", responses={
-            200: {"model": SuccessResponse},
-            400: {"model": ErrorResponse},
-            403: {"model": ErrorResponse},
-            500: {"model": ErrorResponse}
-            })
-async def create_booking(request: BookingRequest,
-                         token: Annotated[str, Depends(oauth2_scheme)]):
+@router.post(
+    "/api/booking",
+    responses={
+        200: {"model": SuccessResponse},
+        400: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        500: {"model": ErrorResponse},
+    },
+)
+async def create_booking(
+    request: BookingRequest, token: Annotated[str, Depends(oauth2_scheme)]
+):
     payload = decode_token(token)
     if not payload:
         return JSONResponse(
             content={"error": True, "message": "未登入系統，拒絕存取。"},
-            status_code=403
+            status_code=403,
         )
     user_id = payload.get("id")
 
@@ -308,7 +312,7 @@ async def create_booking(request: BookingRequest,
     if request.date <= today or request.date > maxdate_allowed:
         return JSONResponse(
             content={"error": True, "message": "預定日期限於今日(不含)起未來2個月內。"},
-            status_code=400
+            status_code=400,
         )
 
     db_cursor = None
@@ -329,8 +333,13 @@ async def create_booking(request: BookingRequest,
             """
             db_cursor.execute(
                 update_query,
-                (request.attractionId, request.date,
-                 request.time, request.price, user_id)
+                (
+                    request.attractionId,
+                    request.date,
+                    request.time,
+                    request.price,
+                    user_id,
+                ),
             )
         else:
             insert_query = """
@@ -340,20 +349,20 @@ async def create_booking(request: BookingRequest,
             """
             db_cursor.execute(
                 insert_query,
-                (request.attractionId, user_id,
-                 request.date, request.time, request.price)
+                (
+                    request.attractionId,
+                    user_id,
+                    request.date,
+                    request.time,
+                    request.price,
+                ),
             )
         connection.commit()
 
-        return JSONResponse(
-                content={"ok": True},
-                status_code=200
-        )
+        return JSONResponse(content={"ok": True}, status_code=200)
     except Error:
         return JSONResponse(
-            content={"error": True,
-                     "message": "INTERNAL_SERVER_ERROR"},
-            status_code=500
+            content={"error": True, "message": "INTERNAL_SERVER_ERROR"}, status_code=500
         )
     finally:
         if db_cursor:
@@ -363,17 +372,20 @@ async def create_booking(request: BookingRequest,
 
 
 #   顯示預定行程
-@router.get("/api/booking", responses={
-            200: {"model": AttractionBookingResponse},
-            403: {"model": ErrorResponse},
-            500: {"model": ErrorResponse}
-            })
+@router.get(
+    "/api/booking",
+    responses={
+        200: {"model": AttractionBookingResponse},
+        403: {"model": ErrorResponse},
+        500: {"model": ErrorResponse},
+    },
+)
 async def get_booking(token: Annotated[str, Depends(oauth2_scheme)]):
     payload = decode_token(token)
     if not payload:
         return JSONResponse(
             content={"error": True, "message": "未登入系統，拒絕存取。"},
-            status_code=403
+            status_code=403,
         )
 
     db_cursor = None
@@ -389,7 +401,7 @@ async def get_booking(token: Annotated[str, Depends(oauth2_scheme)]):
         JOIN attractions a ON r.attraction_id = a.id
         WHERE r.user_id = %s LIMIT 1
         """
-        db_cursor.execute(query, (payload['id'],))
+        db_cursor.execute(query, (payload["id"],))
         reservation = db_cursor.fetchone()
 
         if reservation:
@@ -404,23 +416,18 @@ async def get_booking(token: Annotated[str, Depends(oauth2_scheme)]):
                     id=reservation["attraction_id"],
                     name=reservation["name"],
                     address=reservation["address"],
-                    image=image_url
+                    image=image_url,
                 ),
                 date=reservation["date"].isoformat(),  # 轉換成符合格式
                 time=reservation["time"],
-                price=reservation["price"]
+                price=reservation["price"],
             )
             response_data = AttractionBookingResponse(data=booking_info)
 
-            return JSONResponse(
-                content=response_data.model_dump(),
-                status_code=200
-            )
+            return JSONResponse(content=response_data.model_dump(), status_code=200)
     except Error:
         return JSONResponse(
-            content={"error": True,
-                     "message": "INTERNAL_SERVER_ERROR"},
-            status_code=500
+            content={"error": True, "message": "INTERNAL_SERVER_ERROR"}, status_code=500
         )
     finally:
         if db_cursor:
@@ -429,17 +436,19 @@ async def get_booking(token: Annotated[str, Depends(oauth2_scheme)]):
             connection.close()
 
 
-@router.delete('/api/booking', responses={
-                200: {"model": SuccessResponse},
-                403: {"model": ErrorResponse},
-                500: {"model": ErrorResponse}
-                })
+@router.delete(
+    "/api/booking",
+    responses={
+        200: {"model": SuccessResponse},
+        403: {"model": ErrorResponse},
+        500: {"model": ErrorResponse},
+    },
+)
 async def delete_booking(token: Annotated[str, Depends(oauth2_scheme)]):
     payload = decode_token(token)
     if not payload:
         return JSONResponse(
-            content={"error": True, "message": "未登入系統，拒絕存取"},
-            status_code=403
+            content={"error": True, "message": "未登入系統，拒絕存取"}, status_code=403
         )
 
     db_cursor = None
@@ -448,18 +457,13 @@ async def delete_booking(token: Annotated[str, Depends(oauth2_scheme)]):
         connection = get_db_connection()
         db_cursor = connection.cursor()
         delete_query = "DELETE FROM reservations WHERE user_id = %s"
-        db_cursor.execute(delete_query, (payload['id'],))
+        db_cursor.execute(delete_query, (payload["id"],))
         connection.commit()
 
-        return JSONResponse(
-            content={"ok": True},
-            status_code=200
-        )
+        return JSONResponse(content={"ok": True}, status_code=200)
     except Error:
         return JSONResponse(
-            content={"error": True,
-                     "message": "INTERNAL_SERVER_ERROR"},
-            status_code=500
+            content={"error": True, "message": "INTERNAL_SERVER_ERROR"}, status_code=500
         )
     finally:
         if db_cursor:
@@ -469,31 +473,33 @@ async def delete_booking(token: Annotated[str, Depends(oauth2_scheme)]):
 
 
 # 下訂
-@router.post("/api/orders", responses={
-            200: {"model": OrdersResponse},
-            400: {"model": ErrorResponse},
-            403: {"model": ErrorResponse},
-            500: {"model": ErrorResponse}
-            })
-async def create_orders(request: OrdersRequest,
-                        token: Annotated[str, Depends(oauth2_scheme)]):
+@router.post(
+    "/api/orders",
+    responses={
+        200: {"model": OrdersResponse},
+        400: {"model": ErrorResponse},
+        403: {"model": ErrorResponse},
+        500: {"model": ErrorResponse},
+    },
+)
+async def create_orders(
+    request: OrdersRequest, token: Annotated[str, Depends(oauth2_scheme)]
+):
     payload = decode_token(token)
     if not payload:
         return JSONResponse(
             content={"error": True, "message": "未登入系統，拒絕存取。"},
-            status_code=403
+            status_code=403,
         )
     user_id = payload.get("id")
 
-    if not re.search(r'^09\d{8}$', request.order.contact.phone):
+    if not re.search(r"^09\d{8}$", request.order.contact.phone):
         return JSONResponse(
-            content={"error": True, "message": "手機號碼須為09開頭!"},
-            status_code=400
+            content={"error": True, "message": "手機號碼須為09開頭!"}, status_code=400
         )
     if not re.match(r"[^@]+@[^@]+\.[^@]+", request.order.contact.email):
         return JSONResponse(
-            content={"error": True, "message": "email格式輸入錯誤!"},
-            status_code=400
+            content={"error": True, "message": "email格式輸入錯誤!"}, status_code=400
         )
 
     # 排除完 身分驗證+輸入驗證失敗，再操作資料庫
@@ -526,13 +532,20 @@ async def create_orders(request: OrdersRequest,
         """
         db_cursor.execute(
             insert_order_query,
-            (request.prime,
-             number, reservation_id,
-             request_attraction.id, user_id,
-             request_contact.name, request_contact.email, request_contact.phone,
-             -1,
-             request.order.price, request_trip.date, request_trip.time
-             )
+            (
+                request.prime,
+                number,
+                reservation_id,
+                request_attraction.id,
+                user_id,
+                request_contact.name,
+                request_contact.email,
+                request_contact.phone,
+                -1,
+                request.order.price,
+                request_trip.date,
+                request_trip.time,
+            ),
         )
         connection.commit()
         order_id = db_cursor.lastrowid
@@ -547,9 +560,9 @@ async def create_orders(request: OrdersRequest,
                 "phone_number": request_contact.phone,
                 "name": request_contact.name,
                 "email": request_contact.email,
-                "member_id": user_id
+                "member_id": user_id,
             },
-            "remember": True
+            "remember": True,
         }
         async with AsyncClient() as client:
             response = await client.post(
@@ -557,20 +570,22 @@ async def create_orders(request: OrdersRequest,
                 json=tappay_payload,
                 headers={
                     "Content-Type": "application/json",
-                    "x-api-key": os.environ['PARTNER_KEY']   # 確保非none
-                }
+                    "x-api-key": os.environ["PARTNER_KEY"],  # 確保非none
+                },
             )
             response_data = response.json()
-            payment_status = 0 if (response.status_code == 200 and
-                                   response_data.get("status") == 0) else -1
+            payment_status = (
+                0
+                if (response.status_code == 200 and response_data.get("status") == 0)
+                else -1
+            )
             payment_message = "付款成功" if payment_status == 0 else "付款失敗"
 
             # 先更新 訂單的支付狀態
             update_order_payment_status = """
             UPDATE orders SET payment_status = %s WHERE id = %s
             """
-            db_cursor.execute(update_order_payment_status,
-                              (payment_status, order_id))
+            db_cursor.execute(update_order_payment_status, (payment_status, order_id))
             connection.commit()
             # print("oeder表格的付款狀態欄位更新:", order_id, payment_status)
 
@@ -581,9 +596,10 @@ async def create_orders(request: OrdersRequest,
                     "msg": response_data.get("msg"),
                     "acquirer": response_data.get("acquirer"),
                     "rec_trade_id": response_data.get("rec_trade_id"),
-                    "bank_transaction_id": response_data.get("bank_transaction_id")
+                    "bank_transaction_id": response_data.get("bank_transaction_id"),
                 }
                 return json.dumps(relevant_data)
+
             success_data = (
                 serialize_relevant_data(response_data)
                 if payment_status == 0
@@ -594,10 +610,13 @@ async def create_orders(request: OrdersRequest,
                 if payment_status == 0
                 else serialize_relevant_data(response_data)
             )
-            db_cursor.execute("""
+            db_cursor.execute(
+                """
                               SELECT id FROM orders WHERE id = %s
-                              """, (order_id,))    # 寫法:SQL查詢結束 , 參數
-            order_check = db_cursor.fetchone()     # 每次查詢完都處理查詢結果
+                              """,
+                (order_id,),
+            )  # 寫法:SQL查詢結束 , 參數
+            order_check = db_cursor.fetchone()  # 每次查詢完都處理查詢結果
             if order_check is None:
                 print("無對應的orders記錄,無法插入payment資料")
 
@@ -609,10 +628,7 @@ async def create_orders(request: OrdersRequest,
             """
             db_cursor.execute(
                 insert_payment_query,
-                (order_id, user_id,
-                 payment_status,
-                 success_data,
-                 failure_data)
+                (order_id, user_id, payment_status, success_data, failure_data),
             )
             connection.commit()
 
@@ -629,23 +645,17 @@ async def create_orders(request: OrdersRequest,
 
             order_payment_record = OrderPayment(
                 number=number,
-                payment=Payment(
-                        status=payment_status,
-                        message=payment_message
-                )
+                payment=Payment(status=payment_status, message=payment_message),
             )
             order_response_data = OrdersResponse(data=order_payment_record)
             return JSONResponse(
-                content=order_response_data.model_dump(),
-                status_code=200
+                content=order_response_data.model_dump(), status_code=200
             )
     except Error:
         error_details = traceback.format_exc()
         print("Error details:", error_details)
         return JSONResponse(
-            content={"error": True,
-                     "message": "INTERNAL_SERVER_ERROR"},
-            status_code=500
+            content={"error": True, "message": "INTERNAL_SERVER_ERROR"}, status_code=500
         )
     finally:
         if db_cursor:
@@ -654,18 +664,20 @@ async def create_orders(request: OrdersRequest,
             connection.close()
 
 
-@router.get("/api/order/{orderNumber}", responses={
-            200: {"model": OrderByNumberResponse},
-            403: {"model": ErrorResponse},
-            500: {"model": ErrorResponse}
-            })
-async def get_order(orderNumber: str,
-                    token: Annotated[str, Depends(oauth2_scheme)]):
+@router.get(
+    "/api/order/{orderNumber}",
+    responses={
+        200: {"model": OrderByNumberResponse},
+        403: {"model": ErrorResponse},
+        500: {"model": ErrorResponse},
+    },
+)
+async def get_order(orderNumber: str, token: Annotated[str, Depends(oauth2_scheme)]):
     payload = decode_token(token)
     if not payload:
         return JSONResponse(
             status_code=403,
-            content={"error": True, "message": "未登入系統，拒絕存取。"}
+            content={"error": True, "message": "未登入系統，拒絕存取。"},
         )
 
     db_cursor = None
@@ -686,13 +698,13 @@ async def get_order(orderNumber: str,
         JOIN attractions a ON o.attraction_id = a.id
         WHERE o.number = %s
         """
-        db_cursor.execute(query, (orderNumber,))   # 參數要加,  -> 建立僅1元素的元組
+        db_cursor.execute(query, (orderNumber,))  # 參數要加,  -> 建立僅1元素的元組
         order = db_cursor.fetchone()
 
         if order is None:
             return JSONResponse(
                 status_code=404,
-                content={"error": True, "message": "找不到該訂單號碼對應資料"}
+                content={"error": True, "message": "找不到該訂單號碼對應資料"},
             )
 
         # 使用數據模型形式+巢狀屬性->分開用變數名儲值，再併
@@ -706,17 +718,15 @@ async def get_order(orderNumber: str,
                 id=order["attraction_id"],
                 name=order["name"],
                 address=order["address"],
-                image=image_url
+                image=image_url,
             )
             trip_info = TripInfo(
                 attraction=attraction_info,
                 date=order["date"].isoformat(),
-                time=order["time"]
+                time=order["time"],
             )
             contact_info = ContactInfo(
-                name=order["orderer_name"],
-                email=order["email"],
-                phone=order["phone"]
+                name=order["orderer_name"], email=order["email"], phone=order["phone"]
             )
             order_info = OrderByNumber(
                 number=order["number"],
@@ -726,17 +736,12 @@ async def get_order(orderNumber: str,
                 status=order["payment_status"],
             )
             response_data = OrderByNumberResponse(data=order_info)
-            return JSONResponse(
-                content=response_data.model_dump(),
-                status_code=200
-            )
+            return JSONResponse(content=response_data.model_dump(), status_code=200)
     except Error:
         error_details = traceback.format_exc()
         print("Error details:", error_details)
         return JSONResponse(
-            content={"error": True,
-                     "message": "INTERNAL_SERVER_ERROR"},
-            status_code=500
+            content={"error": True, "message": "INTERNAL_SERVER_ERROR"}, status_code=500
         )
     finally:
         if db_cursor:
